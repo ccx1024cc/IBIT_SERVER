@@ -12,14 +12,175 @@
 		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd ">
+
+	<!-- test -->
+	<!-- <bean id="test" class="org.springframework.remoting.caucho.HessianProxyFactoryBean"> 
+		<property name="serviceUrl"> <value>http://localhost:8080/BIT_Spider/remote/test</value> 
+		</property> <property name="serviceInterface"> <value>com.bit.ss.service.ITest</value> 
+		</property> </bean> -->
 		
-	<!-- <bean id="test" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	<!-- 校方新闻爬虫 -->
+	<bean id="campusNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
 		<property name="serviceUrl">
-			<value>http://localhost:8080/BIT_Spider/remote/test</value>
+			<value>http://localhost:8080/BIT_Spider/remote/CampusNoticeSpider</value>
 		</property>
 		<property name="serviceInterface">
-			<value>com.bit.ss.service.ITest</value>
+			<value>com.bit.ss.service.ISpiderService</value>
 		</property>
-	</bean> -->
+	</bean>
 	
+	<!-- 生活琐事爬虫 -->
+	<bean id="dailyStuffSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/DailyStuffSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 教育教学爬虫 -->
+	<bean id="educationNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/EducationNoticeSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 人事公告爬虫 -->
+	<bean id="hMSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/HMSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 主页新闻爬虫 -->
+	<bean id="indexNewsSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/IndexNewsSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 外事交流爬虫 -->
+	<bean id="internationComSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/InternationComSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 就业信息爬虫 -->
+	<bean id="jobNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/JobNoticeSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 教务处爬虫 -->
+	<bean id="jWCNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/JWCNoticeSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 讲座预告爬虫 -->
+	<bean id="lectureSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/LectureSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 网络通告爬虫 -->
+	<bean id="networkNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/NetworkNoticeSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 行政办公爬虫 -->
+	<bean id="officeWorkSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/OfficeWorkSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 研究生招生爬虫 -->
+	<bean id="postGraduateEnrollSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/PostGraduateEnrollSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 学术研究爬虫 -->
+	<bean id="scienceStudyNoticeSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/ScienceStudyNoticeSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 学工事物爬虫 -->
+	<bean id="studentStuffSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/StudentStuffSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
+	
+	<!-- 本科生招生爬虫 -->
+	<bean id="underGraduateEnrollSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/UnderGraduateEnrollSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
 </beans>
