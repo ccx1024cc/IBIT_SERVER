@@ -12,9 +12,9 @@ public class BaseException extends RuntimeException {
 
 	private static final long serialVersionUID = -5720861015297238892L;
 	// message key
-	private String code;
+	protected String code;
 	// message params
-	private Object[] values;
+	protected Object[] values;
 
 	public String getCode() {
 		return code;
@@ -32,9 +32,21 @@ public class BaseException extends RuntimeException {
 		this.values = values;
 	}
 
+	/**
+	 * 包装系统错误
+	 * 
+	 */
 	public BaseException(String message, Throwable cause, String code, Object[] values) {
 		super(message, cause);
 		this.code = code;
 		this.values = values;
+	}
+	
+	/**
+	 * 自定义错误
+	 */
+	public BaseException(String message,String code) {
+		super(message,null);
+		this.code = code;
 	}
 }

@@ -11,6 +11,8 @@ import javax.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bit.ss.domain.ExceptionCode;
+
 /**
  * @Title: ExceptionMapper.java
  * @Package com.bit.ss.exception
