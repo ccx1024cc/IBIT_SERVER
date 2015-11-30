@@ -8,7 +8,7 @@ package com.bit.ss.domain;
  * @date 2015年10月15日 下午5:08:52
  * @version V1.0
  */
-public class Authority {
+public class Authority implements DefinedBean{
 
 	private int id;
 	private int userId;

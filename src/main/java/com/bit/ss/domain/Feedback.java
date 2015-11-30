@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version V1.0
  */
 @XmlRootElement
-public class Feedback {
+public class Feedback implements DefinedBean{
 
 	private int id;
 	private int userId;

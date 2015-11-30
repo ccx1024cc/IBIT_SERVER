@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version V1.0
  */
 @XmlRootElement
-public class GoodFollow {
+public class GoodFollow implements DefinedBean{
 
 	private int id;
 	private int goodId;

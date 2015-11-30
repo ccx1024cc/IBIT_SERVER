@@ -18,7 +18,7 @@ import com.bit.ss.service.ISpiderService;
  * @version V1.0   
  */
 @Component
-public class Spiders {
+public class Spiders implements DefinedBean{
 
 	@Autowired
 	@Qualifier("campusNoticeSpider")

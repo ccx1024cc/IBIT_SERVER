@@ -4,6 +4,11 @@
   "http://www.mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+	<typeAliases>
+		<typeAlias type="com.bit.ss.domain.News" alias="news"/>
+		<typeAlias type="com.bit.ss.domain.NewsComment" alias="newsComment"/>
+	</typeAliases>
+
 	<typeHandlers>
 		<typeHandler handler="com.bit.ss.typehandler.DateHandler"
 			javaType="java.util.Date" jdbcType="VARCHAR" />

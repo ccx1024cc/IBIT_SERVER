@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @version V1.0
  */
 @XmlRootElement
-public class Answer {
+public class Answer implements DefinedBean{
 
 	private int id;
 	private int userId;

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @version V1.0
  */
 @XmlRootElement
-public class Good {
+public class Good implements DefinedBean{
 
 	private int id;
 	private int UserId;

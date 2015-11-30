@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version V1.0
  */
 @XmlRootElement
-public class News {
+public class News implements DefinedBean{
 
 	private int id;
 	private String title;

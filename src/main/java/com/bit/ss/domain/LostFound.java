@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @version V1.0
  */
 @XmlRootElement
-public class LostFound {
+public class LostFound implements DefinedBean{
 
 	private int id;
 	private int pubUserId;

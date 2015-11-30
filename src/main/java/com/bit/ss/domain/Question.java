@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version V1.0
  */
 @XmlRootElement
-public class Question {
+public class Question implements DefinedBean {
 
 	private int id;
 	private int userId;

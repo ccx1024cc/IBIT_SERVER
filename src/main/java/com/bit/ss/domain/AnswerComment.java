@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version V1.0
  */
 @XmlRootElement
-public class AnswerComment {
+public class AnswerComment implements DefinedBean{
 
 	private int id;
 	private int answerId;
