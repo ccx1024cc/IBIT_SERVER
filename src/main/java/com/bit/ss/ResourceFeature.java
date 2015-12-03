@@ -4,6 +4,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.internal.monitoring.MonitoringFeature;
+import org.glassfish.jersey.server.mvc.freemarker.FreemarkerMvcFeature;
 
 /**
  * @Title: ResourceFeature.java
@@ -20,6 +21,7 @@ public class ResourceFeature extends ResourceConfig {
 		register(JacksonFeature.class);
 		register(MultiPartFeature.class);
 		register(MonitoringFeature.class);
+		register(FreemarkerMvcFeature.class);
 		property("jersey.config.servlet.filter.staticContentRegex", "/resources/.*");
 	}
 }

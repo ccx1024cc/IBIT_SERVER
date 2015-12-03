@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.server.mvc.Viewable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -140,5 +141,12 @@ public class NewsServiceController extends BaseController {
 		comment.setUserId((Integer) session.getAttribute("id"));
 		newsService.insertComment(comment);
 		return Response.ok().type(MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+	}
+	
+	@GET
+	@Path("dispaly")
+	@Produces(MediaType.TEXT_HTML)
+	public Viewable getIndexPage(){
+		return new Viewable("/index.ftl");
 	}
 }
