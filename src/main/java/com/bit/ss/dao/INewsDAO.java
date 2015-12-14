@@ -22,8 +22,17 @@ public interface INewsDAO {
 	 * @return List<News>    返回类型 
 	 * @throws
 	 */
-	public List<News> findList(int start, int num, int type);
-	
+	public List<News> findList(int pageSize, int page, int type, String keyword);
+
+	/**
+	 * 
+	 * @Title: getNewsNum 
+	 * @Description: 查询某类新闻数量
+	 * @return int    返回类型 
+	 * @throws
+	 */
+	public int getNewsNum(int type, String pubTime, String keyword);
+
 	/**
 	 * 
 	 * @Title: findNews 
@@ -32,7 +41,7 @@ public interface INewsDAO {
 	 * @throws
 	 */
 	public News findNews(int newsID);
-	
+
 	/**
 	 * 
 	 * @Title: findCommentList 
@@ -40,7 +49,7 @@ public interface INewsDAO {
 	 * @return List<NewsComment>    返回类型 
 	 * @throws
 	 */
-	public List<NewsComment> findCommentList(int start,int num,int newsID);
+	public List<NewsComment> findCommentList(int start, int num, int newsID);
 
 	/**
 	 * 
@@ -50,7 +59,7 @@ public interface INewsDAO {
 	 * @throws
 	 */
 	public int getCommentNum(int newsID);
-	
+
 	/**
 	 * 
 	 * @Title: insertComment 

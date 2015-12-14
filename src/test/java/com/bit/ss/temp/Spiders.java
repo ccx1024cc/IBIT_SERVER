@@ -1,4 +1,4 @@
-package com.bit.ss.domain;
+package com.bit.ss.temp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.bit.ss.service.ISpiderService;
+import com.bit.ss.domain.DefinedBean;
 
 /**   
  * @Title: Spiders.java 

@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="ibit" version="3.0">
 	<display-name>IBIT_Server</display-name>
+	<!-- <welcome-file-list>
+		<welcome-file>/resources/test.html</welcome-file>
+	</welcome-file-list> -->
 
 	<!--初始化日志配置文件 -->
     <context-param>

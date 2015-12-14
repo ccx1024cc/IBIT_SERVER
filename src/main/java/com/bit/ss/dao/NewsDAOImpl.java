@@ -27,25 +27,31 @@ public class NewsDAOImpl implements INewsDAO {
 	private NewsCommentMapper newsCommentMapper;
 
 	@Override
-	public List<News> findList(int start, int num, int type) {
-		return newsMapper.findList(start, num, type);
+	public int getNewsNum(int type, String pubTime, String keyword) {
+		return newsMapper.countNum(type, pubTime, keyword);
 	}
-	
+
+	@Override
+	public List<News> findList(int pageSize, int page, int type, String keyword) {
+		int start = (page - 1) * pageSize;
+		return newsMapper.findList(start, pageSize - 1, type, keyword);
+	}
+
 	@Override
 	public News findNews(int newsID) {
 		return newsMapper.findNews(newsID);
 	}
-	
+
 	@Override
 	public List<NewsComment> findCommentList(int start, int num, int newsID) {
 		return newsCommentMapper.findList(start, num, newsID);
 	}
-	
+
 	@Override
 	public int getCommentNum(int newsID) {
 		return newsCommentMapper.getNum(newsID);
 	}
-	
+
 	@Override
 	public int insertComment(NewsComment comment) {
 		return newsCommentMapper.intsertComment(comment);

@@ -6,6 +6,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
@@ -22,16 +23,15 @@ import com.bit.ss.domain.ExceptionCode;
  * @version V1.0
  */
 @Provider
-public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exception> {
+public class DefinedExceptionMapper implements ExceptionMapper<Exception> {
 
-	private static Logger log = LoggerFactory.getLogger(ExceptionMapper.class);
+	private static Logger log = LoggerFactory.getLogger(DefinedExceptionMapper.class);
 
 	@Context
 	private HttpServletRequest req;
 
 	@Override
 	public Response toResponse(Exception arg0) {
-		// TODO Auto-generated method stub
 		Status status = Status.INTERNAL_SERVER_ERROR;
 		String uri = req.getRequestURI();
 		String code = null;

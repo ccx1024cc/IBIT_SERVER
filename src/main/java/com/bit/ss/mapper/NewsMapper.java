@@ -25,7 +25,8 @@ public interface NewsMapper {
 	 * @return List<News>    返回类型 
 	 * @throws
 	 */
-	public List<News> findList(@Param("start") int start, @Param("num") int num, @Param("type") int type);
+	public List<News> findList(@Param("start") int start, @Param("num") int num, @Param("type") int type,
+			@Param("keyword") String keyword);
 
 	/**
 	 * 
@@ -34,5 +35,14 @@ public interface NewsMapper {
 	 * @return News    返回类型 
 	 * @throws
 	 */
-	public News findNews(@Param("newsID")int newsID);
+	public News findNews(@Param("newsID") int newsID);
+
+	/**
+	 * 
+	 * @Title: countNum 
+	 * @Description: 计算某类新闻全部个数
+	 * @return int    返回类型 
+	 * @throws
+	 */
+	public int countNum(@Param("type") int type, @Param("pubTime") String pubTime, @Param("keyword") String keyword);
 }

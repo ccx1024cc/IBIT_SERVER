@@ -2,16 +2,40 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.bit.ss.mapper.NewsMapper">
-  	
-  	<select id="findList" parameterType="news">
-  		select news_id as id,news_title as title,news_pubTime as pubTime
-  		where news_type = #{type} limit #{start},#{num};
-  	</select>
-  	
-  	<select id="findNews" parameterType="news">
-  		select news_title as title,news_pubTime as pubTime,news_content as content
-  		where news_id = #{newsID};
-  	</select>
-  </mapper>
+
+<mapper namespace="com.bit.ss.mapper.NewsMapper">
+
+	<select id="findList" parameterType="news" resultType="news">
+		select news_id as id,news_title as title,news_pubTime as
+		pubTime,news_url as url
+		from tbl_news
+		where news_type = #{type}
+		<if test="keyword != null and keyword != ''">
+			and (news_title like '%${keyword}%' or news_pubTime like '%${keyword}%')
+		</if>
+		order by news_pubTime desc
+		limit #{start},#{num};
+	</select>
+
+	<select id="findNews" parameterType="news" resultType="news">
+		select news_title as title,news_pubTime as pubTime,news_content as content
+		from tbl_news
+		where news_id = #{newsID};
+	</select>
+
+	<select id="countNum" resultType="int">
+		select count(*) from tbl_news
+		<where>
+			<if test="type != -1">
+				news_type = #{type}
+			</if>
+			<if test="pubTime != null">
+				and news_pubTime like '${pubTime}%'
+			</if>
+			<if test="keyword != null and keyword != ''">
+				and (news_title like '%${keyword}%' or news_pubTime like '%${keyword}%')
+			</if>
+		</where>
+		;
+	</select>
+</mapper>

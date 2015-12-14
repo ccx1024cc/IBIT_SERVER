@@ -1,9 +1,9 @@
-package com.bit.ss;
+package com.bit.ss.jackson;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
-import com.bit.ss.domain.DefinedBean;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,18 +33,21 @@ public class JerseyMapperProvider implements ContextResolver<ObjectMapper> {
 
 	@Override
 	public ObjectMapper getContext(final Class<?> type) {
-
-		if (type == DefinedBean.class) {
-			return definedObjectMapper;
-		} else {
-			return defaultObjectMapper;
-		}
+		/**
+		 * isAssignableFrom无法正确得出结果
+		 */
+		// type.isAssignableFrom(DefinedBean.class);
+		// if (!type.isPrimitive()) {
+		// return definedObjectMapper;
+		// } else {
+		// return defaultObjectMapper;
+		// }
+		return definedObjectMapper;
 	}
 
 	private static ObjectMapper createDefinedObjectMapper() {
-		return new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, true)
-				.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
-				.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
+		return new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, false)
+				.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true).setSerializationInclusion(Include.NON_NULL)
 				.setAnnotationIntrospector(createJaxbJacksonAnnotationIntrospector());
 	}
 

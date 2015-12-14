@@ -1,11 +1,13 @@
 package com.bit.ss.util;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.runners.JUnit4;
+
+import com.bit.ss.domain.News;
 
 /**
  * @Title: TestStuff.java
@@ -15,8 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @date 2015年11月1日 下午12:58:02
  * @version V1.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@RunWith(JUnit4.class)
 public class TestStuff {
 
 	@Test
@@ -27,5 +28,12 @@ public class TestStuff {
 		copy.setTime(a.getTime() + 3600 * 1000 * 2);
 		System.out.println("copy : " + copy);
 		System.out.println("a : " + a);
+	}
+
+	@Test
+	public void testClass() {
+		Class<News> type = News.class;
+		System.out.println(type);
+		System.out.println(ArrayList.class);
 	}
 }

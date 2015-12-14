@@ -1,12 +1,10 @@
-package com.bit.ss.service;
+package com.bit.ss.temp;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.bit.ss.domain.Spiders;
 
 /**   
  * @Title: Spiders.java 

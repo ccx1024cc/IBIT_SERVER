@@ -1,4 +1,4 @@
-package com.bit.ss.service;
+package com.bit.ss.temp;
 
 /**   
  * @Title: ISpiderService.java 

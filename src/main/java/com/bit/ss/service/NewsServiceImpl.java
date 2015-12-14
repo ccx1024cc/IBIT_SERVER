@@ -18,31 +18,37 @@ import com.bit.ss.domain.NewsComment;
  * @version V1.0   
  */
 @Service
-public class NewsServiceImpl implements INewsService{
+public class NewsServiceImpl implements INewsService {
 
 	@Autowired
 	private INewsDAO newsDAO;
-	
+
 	@Override
-	public List<News> findList(int start, int num, int type) {
-		return newsDAO.findList(start, num, type);
+	public int findCount(int type, String pubTime, String keyword) {
+		int num = newsDAO.getNewsNum(type, pubTime, keyword);
+		return num;
 	}
-	
+
+	@Override
+	public List<News> findList(int page, int type, String keyword) {
+		return newsDAO.findList(pageSize, page, type, keyword);
+	}
+
 	@Override
 	public News findNews(int newsID) {
 		return newsDAO.findNews(newsID);
 	}
-	
+
 	@Override
 	public List<NewsComment> findCommentList(int start, int num, int newsID) {
 		return newsDAO.findCommentList(start, num, newsID);
 	}
-	
+
 	@Override
 	public int getCommentNum(int newsID) {
 		return newsDAO.getCommentNum(newsID);
 	}
-	
+
 	@Override
 	public void insertComment(NewsComment comment) {
 		newsDAO.insertComment(comment);

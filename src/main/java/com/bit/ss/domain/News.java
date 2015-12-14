@@ -4,6 +4,9 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.bit.ss.jackson.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * @Title: News.java
  * @Package com.bit.ss.domain
@@ -46,6 +49,7 @@ public class News implements DefinedBean{
 		this.content = content;
 	}
 
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getPubTime() {
 		return pubTime;
 	}

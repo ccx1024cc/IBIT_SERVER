@@ -15,6 +15,17 @@ import com.bit.ss.domain.NewsComment;
  */
 public interface INewsService {
 
+	public static final int pageSize = 30; // 每一页30条信息
+
+	/**
+	 * 
+	 * @Title: findCount 
+	 * @Description: 获取某类新闻的数量
+	 * @return int    返回类型 
+	 * @throws
+	 */
+	public int findCount(int type, String pubTime, String password);
+
 	/**
 	 * 
 	 * @Title: findListBrief 
@@ -22,7 +33,7 @@ public interface INewsService {
 	 * @return List<News>    返回类型 
 	 * @throws
 	 */
-	public List<News> findList(int start, int num, int type);
+	public List<News> findList(int page, int type, String keyword);
 
 	/**
 	 * 
@@ -32,7 +43,7 @@ public interface INewsService {
 	 * @throws
 	 */
 	public News findNews(int newsID);
-	
+
 	/**
 	 * 
 	 * @Title: findCommentList 
@@ -40,8 +51,8 @@ public interface INewsService {
 	 * @return List<NewsComment>    返回类型 
 	 * @throws
 	 */
-	public List<NewsComment> findCommentList(int start,int num,int newsID);
-	
+	public List<NewsComment> findCommentList(int start, int num, int newsID);
+
 	/**
 	 * 
 	 * @Title: getCommentNum 
@@ -50,7 +61,7 @@ public interface INewsService {
 	 * @throws
 	 */
 	public int getCommentNum(int newsID);
-	
+
 	/**
 	 * 
 	 * @Title: insertComment 
