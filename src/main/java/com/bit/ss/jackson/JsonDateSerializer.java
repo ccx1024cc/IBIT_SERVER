@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class JsonDateSerializer extends JsonSerializer<Date>{
 
-	private final static DateUtil dateUtil = new DateUtil();
+	private final DateUtil dateUtil = new DateUtil();
 	
 	@Override
 	public void serialize(Date arg0, JsonGenerator arg1, SerializerProvider arg2)

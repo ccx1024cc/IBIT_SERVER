@@ -2,8 +2,9 @@ package com.bit.ss.service;
 
 import java.util.List;
 
-import com.bit.ss.domain.News;
-import com.bit.ss.domain.NewsComment;
+import com.bit.ss.model.News;
+import com.bit.ss.model.NewsComment;
+import com.bit.ss.model.NewsConcern;
 
 /**   
  * @Title: INewsService.java 
@@ -15,16 +16,18 @@ import com.bit.ss.domain.NewsComment;
  */
 public interface INewsService {
 
-	public static final int pageSize = 30; // 每一页30条信息
+	public static final int NEWSPAGESIZE = 30; // 每一页30条信息
+	public static final int COMMENTPAGESIZE = 30;//每一页30条评论信息
 
 	/**
 	 * 
 	 * @Title: findCount 
-	 * @Description: 获取某类新闻的数量
+	 * @Description: 通过关键字获取数量
 	 * @return int    返回类型 
 	 * @throws
 	 */
-	public int findCount(int type, String pubTime, String password);
+	public int findCountByKeyword(int type,String keyword);
+	
 
 	/**
 	 * 
@@ -34,40 +37,58 @@ public interface INewsService {
 	 * @throws
 	 */
 	public List<News> findList(int page, int type, String keyword);
-
+	
 	/**
 	 * 
-	 * @Title: findNews 
-	 * @Description: 查询单条信息
-	 * @return News    返回类型 
+	 * @Title: findNewsListByType 
+	 * @Description: 查询某一类新闻列表
+	 * @return List<News>    返回类型 
 	 * @throws
 	 */
-	public News findNews(int newsID);
+	public List<News> findNewsListByType(int type,int page);
 
 	/**
 	 * 
-	 * @Title: findCommentList 
-	 * @Description: 获取单条新闻的评论列表
-	 * @return List<NewsComment>    返回类型 
-	 * @throws
-	 */
-	public List<NewsComment> findCommentList(int start, int num, int newsID);
-
-	/**
-	 * 
-	 * @Title: getCommentNum 
-	 * @Description: 获取单条新闻评论数量
+	 * @Title: addNewsConcern 
+	 * @Description: 添加关注信息
 	 * @return int    返回类型 
 	 * @throws
 	 */
-	public int getCommentNum(int newsID);
+	public int addNewsConcern(int userId,int newsType);
+	
+	/**
+	 * 
+	 * @Title: deleteNewsConcern 
+	 * @Description: 删除关注信息
+	 * @return int    返回类型 
+	 * @throws
+	 */
+	public int deleteNewsConcern(int concernId);
+	
+	/**
+	 * 
+	 * @Title: getConcernList 
+	 * @Description: 获取某人的关注列表
+	 * @return List<NewsConcern>    返回类型 
+	 * @throws
+	 */
+	public List<NewsConcern> getConcernList(int userId);
 
 	/**
 	 * 
-	 * @Title: insertComment 
-	 * @Description: 插入单条新闻评论
-	 * @return void    返回类型 
+	 * @Title: addComment 
+	 * @Description: 添加评论
+	 * @return int    返回类型 
 	 * @throws
 	 */
-	public void insertComment(NewsComment comment);
+	public int addComment(NewsComment comment);
+	
+	/**
+	 * 
+	 * @Title: getCommentList 
+	 * @Description: 获取新闻评论列表
+	 * @return List<NewsComment>    返回类型 
+	 * @throws
+	 */
+	public List<NewsComment> getCommentList(int newsId,int page);
 }

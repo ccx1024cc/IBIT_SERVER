@@ -183,4 +183,15 @@
 			<value>com.bit.ss.service.ISpiderService</value>
 		</property>
 	</bean>
+	
+	<!-- 校车爬虫 -->
+	<bean id="schoolBusSpider"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://localhost:8080/BIT_Spider/remote/SchoolBusSpider</value>
+		</property>
+		<property name="serviceInterface">
+			<value>com.bit.ss.service.ISpiderService</value>
+		</property>
+	</bean>
 </beans>

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bit.ss.domain.News;
+import com.bit.ss.model.News;
 
 /**   
  * @Title: NewsService.java 

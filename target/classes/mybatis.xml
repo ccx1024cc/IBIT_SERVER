@@ -5,13 +5,29 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias type="com.bit.ss.domain.News" alias="news"/>
-		<typeAlias type="com.bit.ss.domain.NewsComment" alias="newsComment"/>
+		<typeAlias type="com.bit.ss.model.News" alias="news" />
+		<typeAlias type="com.bit.ss.model.NewsComment" alias="newsComment" />
+		<typeAlias type="com.bit.ss.model.User" alias="user" />
+		<typeAlias type="com.bit.ss.model.Authority" alias="authority" />
+		<typeAlias type="com.bit.ss.model.NewsConcern" alias="newsConcern" />
+		<typeAlias type="com.bit.ss.model.Bus" alias="bus" />
+		<typeAlias type="com.bit.ss.model.Answer" alias="answer" />
+		<typeAlias type="com.bit.ss.model.Question" alias="question" />
+		<typeAlias type="com.bit.ss.model.LostFound" alias="lostFound" />
+		<typeAlias type="com.bit.ss.model.QuestionTag" alias="questionTag" />
+		<typeAlias type="com.bit.ss.model.GoodPic" alias="goodIcon" />
+		<typeAlias type="com.bit.ss.model.GoodComment" alias="goodComment" />
+		<typeAlias type="com.bit.ss.model.Good" alias="good" />
+		<typeAlias type="com.bit.ss.model.Feedback" alias="feedback" />
+		<typeAlias type="com.bit.ss.model.Version" alias="version" />
+		<typeAlias type="com.bit.ss.model.Message" alias="message" />
 	</typeAliases>
 
 	<typeHandlers>
 		<typeHandler handler="com.bit.ss.typehandler.DateHandler"
 			javaType="java.util.Date" jdbcType="VARCHAR" />
+		<typeHandler handler="com.bit.ss.typehandler.BooleanHandler"
+			javaType="java.lang.Boolean" jdbcType="INTEGER" />
 	</typeHandlers>
 
 </configuration>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.FeedbackMapper">
+	<resultMap type="feedback" id="feedbackMap">
+		<id property="id" column="FeBa_Id" />
+		<result property="platForm" column="FeBa_Platform" />
+		<result property="content" column="FeBa_Content" />
+		<result property="status" column="FeBa_Status" />
+		<result property="pubTime" column="FeBa_PubTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<result property="fixedTime" column="FeBa_FixedTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<result property="fixedPerson" column="FeBa_FixedPerson" />
+		<association property="publisher"
+			resultMap="com.bit.ss.mapper.UserMapper.userMap" />
+	</resultMap>
+	
+	<insert id="addFeedback">
+		insert into tbl_feedback(FeBa_User_Id,FeBa_Platform,FeBa_Content
+			,FeBa_PubTime)
+		values(#{publisher.id},#{platForm},#{content}
+			,#{pubTime,javaType=java.util.Date,jdbcType=VARCHAR});
+	</insert>
+	
+	<select id="getFeedbackNumByStatus" resultType="int">
+		select count(*)
+		from tbl_feedback
+		<if test="status != null">
+			where FeBa_Status = #{status}
+		</if>
+	</select>
+	
+	<select id="getFeedbackListByNum" resultMap="feedbackMap">
+		select FeBa_Id,FeBa_Platform,FeBa_Content,FeBa_Status,
+			FeBa_PubTime,FeBa_FixedTime,FeBa_FixedPerson
+		from tbl_feedback
+		order by FeBa_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getOpenFeedbackList" resultMap="feedbackMap">
+		select FeBa_Id,FeBa_Platform,FeBa_Content,FeBa_PubTime
+		from tbl_feedback
+		where FeBa_Status = 0
+		order by FeBa_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getClosedFeedbackList" resultMap="feedbackMap">
+		select FeBa_Id,FeBa_Platform,FeBa_Content
+			,FeBa_Status,FeBa_PubTime,FeBa_FixedTime
+			,FeBa_FixedPerson
+		from tbl_feedback
+		where FeBa_Status = 1 or FeBa_Status = 2
+		order by FeBa_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<update id="updateOpenedFeedback">
+		update tbl_feedback
+		set FeBa_Status = #{status},FeBa_FixedPerson = #{fixedPerson}
+			,FeBa_FixedTime = #{fixedTime,javaType=java.util.Date,jdbcType=VARCHAR}
+		where FeBa_Id = #{feedbackId};
+	</update>
+</mapper>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.QuestionMapper">
+	<resultMap type="answer" id="answerMap">
+		<id property="id" column="Answ_Id" />
+		<result property="questionId" column="Answ_Question_Id" />
+		<result property="content" column="Answ_Content" />
+		<result property="agreementNum" column="Answ_Agreement_Num" />
+		<result property="floor" column="Answ_floor" />
+		<result property="adoption" column="Answ_Adpotion" javaType="java.lang.Boolean"
+			jdbcType="INTEGER" typeHandler="com.bit.ss.typehandler.BooleanHandler" />
+		<result property="hasAgreement" column="hasAgreement" javaType="java.lang.Boolean"
+			jdbcType="INTEGER" typeHandler="com.bit.ss.typehandler.BooleanHandler"/>
+		<result property="time" column="Answ_Time" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<association property="owner"
+			resultMap="com.bit.ss.mapper.UserMapper.userMap" />
+	</resultMap>
+
+	<resultMap type="question" id="questionMap">
+		<id property="id" column="Ques_Id" />
+		<result property="title" column="Ques_Title" />
+		<result property="content" column="Ques_Content" />
+		<result property="iconUrl" column="Ques_pic_url"/>
+		<result property="answerNum" column="Ques_Answer_Num" />
+		<result property="readTimes" column="Ques_read_times"/>
+		<result property="date" column="Ques_Time" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+		<result property="lastAnswerTime" column="Ques_Last_Answer_Time" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+		<association property="owner" resultMap="com.bit.ss.mapper.UserMapper.userMap"/>
+		<collection property="tags" javaType="ArrayList" ofType="questionTag">
+			<id property="id" column="QuTa_Id"/>
+			<result property="questionId" column="QuTa_Question_Id"/>
+			<result property="tagName" column="QuTa_TagName"/>
+		</collection>
+	</resultMap>
+
+	<select id="getHotResolvedQuestions" resultMap="questionMap">
+		select q.Ques_Id,q.Ques_Title,q.Ques_Answer_Num,q.Ques_Time
+			,u.User_Username,u.User_Icon_Url
+			,t.QuTa_TagName
+		from tbl_question as q
+			left join tbl_question_tag as t
+				on q.Ques_Id = t.QuTa_Question_Id
+			left join tbl_user as u
+				on u.User_Id = q.Ques_User_Id
+		where q.Ques_is_resovled = 1
+		order by q.Ques_read_times desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getUnresolvedQuestions" resultMap="questionMap">
+		select q.Ques_Id,q.Ques_Title,q.Ques_Answer_Num,q.Ques_Time,q.Ques_read_times
+			,u.User_Username,u.User_Icon_Url
+			,t.QuTa_TagName
+		from tbl_question as q
+			left join tbl_question_tag as t
+				on q.Ques_Id = t.QuTa_Question_Id
+			left join tbl_user as u
+				on u.User_Id = q.Ques_User_Id
+		where q.Ques_is_resovled = 0
+		order by q.Ques_Time desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getQuestionByQuestionId" resultMap="questionMap">
+		select q.Ques_Title,q.Ques_Content,q.Ques_Time
+			,q.Ques_is_resovled,q.Ques_Answer_Num,q.Ques_pic_url
+			,u.User_Username,u.User_Icon_Url,u.User_Id
+		from tbl_question as q
+			left join tbl_user as u
+				on u.user_id = q.ques_user_id
+		where q.Ques_Id = #{questionId};
+	</select>
+	
+	<update id="addReadTimesBy1">
+		update tbl_question set Ques_read_times = Ques_read_times + 1
+			where Ques_Id = #{questionId};
+	</update>
+	
+	<select id="getAnswerListByQuestionId" resultMap="answerMap">
+		select a.Answ_Id,a.Answ_Adpotion,a.Answ_Content
+			,a.Answ_Time,a.Answ_Agreement_Num,a.Answ_floor
+			,u.User_Username,u.User_Icon_Url
+			,an.Agre_Id as hasAgreement
+		from tbl_answer as a
+			left join tbl_user as u
+				on u.user_id = a.Answ_User_Id
+			left join tbl_ansagreement as an
+				on a.Answ_Id = an.Agre_Ans_Id
+		<where>
+			a.Answ_Question_Id = #{questionId}
+			<if test="userId != null">
+				and an.Agre_User_Id = #{userId}
+			</if>
+		</where>
+		order by a.Answ_Time desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getQuestionNumByUserId" resultType="int">
+		select count(*) from tbl_question
+			where Ques_Id = #{questionId} and Ques_User_Id = #{userId};
+	</select>
+	
+	<update id="updateBestAnswer">
+		update tbl_answer set Answ_Adpotion = 1 where Answ_Id = #{answerId};
+	</update>
+	
+	<select id="getQuestionIdByAnswerId" resultType="int">
+		select Answ_Question_Id from tbl_answer where Answ_Id = #{answerId};
+	</select>
+	
+	<select id="getIsResovled" resultType="int">
+		select Ques_is_resovled from tbl_question where Ques_Id = #{questionId};
+	</select>
+	
+	<update id="updateQuestionResovled">
+		update tbl_question set Ques_is_resovled = 1 where Ques_Id = #{questionId};
+	</update>
+	
+	<select id="getAgreementExist" resultType="int">
+		select count(*) from tbl_ansagreement
+			where Agre_User_Id = #{userId}
+				and Agre_Ans_Id = #{answerId};
+	</select>
+	
+	<insert id="addAnswerAgreement">
+		insert into tbl_ansagreement(Agre_User_Id,Agre_Ans_Id,Agre_Time)
+			values(#{userId},#{answerId},#{pubTime,jdbcType=VARCHAR,javaType=java.util.Date});
+	</insert>
+	
+	<insert id="addAnswer">
+		insert into 
+			tbl_answer(Answ_User_Id,Answ_Question_Id,Answ_Content,Answ_Time,Answ_floor)
+		values(#{owner.id},#{questionId},#{content}
+			,#{time,jdbcType=VARCHAR,javaType=java.util.Date}
+			,#{floor});
+	</insert>
+	
+	<delete id="deleteAnswerAgreement">
+		delete from tbl_ansagreement 
+			where Agre_User_Id=#{userId} and Agre_Ans_Id=#{answerId};
+	</delete>
+	
+	<select id="getMaxAnswerFloorByQuestion" resultType="int">
+		select count(*) from tbl_answer
+			where Answ_Question_Id = #{questionId};
+	</select>
+	
+	<insert id="addQuestion" useGeneratedKeys="true" keyProperty="id" parameterType="question">
+		insert into 
+			tbl_question(Ques_User_Id,Ques_Title,Ques_Content,Ques_Time,Ques_pic_url)
+		values(#{owner.id},#{title},#{content}
+				,#{date,jdbcType=VARCHAR,javaType=java.util.Date},#{iconUrl});
+	</insert>
+	
+	<insert id="addTags">
+		insert into tbl_question_tag(QuTa_Question_Id,QuTa_TagName)
+			values(#{questionId},#{tagName});
+	</insert>
+	
+	<select id="getPersonalResovledQuestions" resultMap="questionMap">
+		select q.Ques_Id,q.Ques_Title,q.Ques_Answer_Num,q.Ques_Time
+			,t.QuTa_TagName
+		from tbl_question as q
+			left join tbl_question_tag as t
+				on q.Ques_Id = t.QuTa_Question_Id
+		where q.Ques_is_resovled = 1 and q.Ques_User_Id = #{userId}
+		order by q.Ques_Time desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getPersonalUnresolvedQuestions" resultMap="questionMap">
+		select q.Ques_Id,q.Ques_Title,q.Ques_Answer_Num,q.Ques_Time
+			,t.QuTa_TagName
+		from tbl_question as q
+			left join tbl_question_tag as t
+				on q.Ques_Id = t.QuTa_Question_Id
+		where q.Ques_is_resovled = 0 and q.Ques_User_Id = #{userId}
+		order by q.Ques_Time desc
+		limit #{start},#{num};
+	</select>
+</mapper>

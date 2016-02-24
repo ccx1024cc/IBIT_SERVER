@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.LostFoundMapper">
+	<resultMap type="lostFound" id="lostFoundMap">
+		<id property="id" column="LoFo_Id" />
+		<result property="validation" column="LoFo_Validation" />
+		<result property="content" column="LoFo_Content" />
+		<result property="location" column="LoFo_Location" />
+		<result property="iconUrl" column="iconUrl"/>
+		<result property="outDate" column="LoFo_outDate" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<result property="pubTime" column="LoFo_PubTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<association property="publisher" resultMap="com.bit.ss.mapper.UserMapper.userMap"/>
+	</resultMap>
+	
+	<select id="getLatestStuffList" resultMap="lostFoundMap">
+		select l.LoFo_Id,l.LoFo_PubTime,l.LoFo_Content,l.LoFo_Location,l.LoFo_icon_url
+			,u.User_Username,u.User_phone
+		from tbl_lostfound as l
+			left join tbl_user as u
+			on l.LoFo_PubUser_Id = u.User_Id
+		where l.LoFo_outDate > #{threshold,javaType=java.util.Date,jdbcType=VARCHAR}
+		order by l.LoFo_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getOldStuffList" resultMap="lostFoundMap">
+		select l.LoFo_Id,l.LoFo_PubTime,l.LoFo_Content,l.LoFo_Location,l.LoFo_icon_url
+			,u.User_Username,u.User_phone
+		from tbl_lostfound as l
+			left join tbl_user as u
+			on l.LoFo_PubUser_Id = u.User_Id
+		where  #{threshold,javaType=java.util.Date,jdbcType=VARCHAR} >= l.LoFo_outDate
+		order by l.LoFo_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<insert id="addLostFound">
+		insert into 
+			tbl_lostfound(LoFo_PubUser_Id,LoFo_PubTime
+				,LoFo_Content,LoFo_Location,LoFo_icon_url,LoFo_outDate)
+		values(#{publisher.id},#{pubTime,javaType=java.util.Date,jdbcType=VARCHAR}
+				,#{content},#{location},#{iconUrl}
+				,#{outDate,javaType=java.util.Date,jdbcType=VARCHAR});
+	</insert>
+</mapper>

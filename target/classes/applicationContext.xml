@@ -19,9 +19,9 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<!-- 开发环境配置 -->
-				<value>classpath:/dev/jdbc.properties</value>
-				<value>classpath:/dev/atomikos.properties</value>
+				<value>classpath:/jdbc.properties</value>
+				<value>classpath:/atomikos.properties</value>
+				<value>classpath:/root.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -33,16 +33,30 @@
 		</bean> -->
 
 	<import resource="redis.xml" />
-	<!-- <import resource="hessian.xml" /> -->
+	<import resource="hessian.xml" />
 
 	<!-- spring 扫描 -->
 	<context:component-scan base-package="com.bit.ss.*" />
 
 	<!-- 开启任务 -->
-	<!-- <task:executor id="executor" pool-size="5" />
+	<task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven executor="executor"
-		scheduler="scheduler" /> -->
+		scheduler="scheduler" />
+
+	<!-- 通过本文件修改root用户信息可能造成冲突 -->
+	<!-- 如果有需要，请通过root.properties文件修改信息 -->
+	<!-- root -->
+	<bean id="root" class="com.bit.ss.model.User">
+		<property name="id" value="-1"/>
+		<property name="name" value="root" />
+		<property name="password" value="${root.password}" />
+		<property name="phone" value="000000" />
+		<property name="gender" value="${root.gender}"/>
+		<property name="email" value="root@IBIT"/>
+		<property name="autograph" value="${root.autograph}"/>
+		<property name="iconUrl" value="${root.iconUrl}"/>
+	</bean>
 
 	<!-- datasources -->
 	<bean id="dataSourceRead" class="com.atomikos.jdbc.AtomikosDataSourceBean"

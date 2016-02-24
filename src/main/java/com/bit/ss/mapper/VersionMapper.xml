@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.VersionMapper">
+	<resultMap type="version" id="versionMap">
+		<id property="id" column="vers_id" />
+		<result property="number" column="vers_number" />
+		<result property="publisher" column="vers_publisher" />
+		<result property="description" column="vers_description" />
+		<result property="isNew" column="vers_isNew"/>
+		<result property="pubTime" column="vers_pubTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+	</resultMap>
+	
+	<select id="getLatestNumber" resultType="java.lang.String">
+		select vers_number from tbl_version
+			where vers_isNew = 1;
+	</select>
+	
+	<select id="getVersionNum" resultType="int">
+		select count(*)
+		from tbl_version;
+	</select>
+	
+	<select id="getVersionList" resultMap="versionMap">
+		select vers_id,vers_number,vers_isNew
+			,vers_pubTime,vers_publisher,vers_description
+		from tbl_version
+		order by vers_pubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<update id="stopCurrentVersion">
+		update tbl_version
+		set vers_isNew = 0
+		where vers_isNew = 1;
+	</update>
+	
+	<insert id="addVersion">
+		insert into
+		tbl_version(vers_number,vers_pubTime,vers_publisher,vers_description)
+		values(#{number}
+			,#{pubTime,jdbcType=VARCHAR,javaType=java.util.Date}
+			,#{publisher}
+			,#{description});
+	</insert>
+</mapper>

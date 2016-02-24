@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>bug不息</title>
+</head>
+<body>
+	<h1>用户模块</h1>
+	<div id="getCheckCode">
+		<h2>获取验证码</h2>
+		<input type="text" placeholder="phone" name="phone">
+		<button>提交</button>
+	</div>
+	<div id="checkCheckCode">
+		<h2>校验验证码</h2>
+		<input type="text" placeholder="checkCode" name="checkCode">
+		<button>提交</button>
+	</div>
+	<div id="addUser">
+		<h2>注册账号</h2>
+		<form>
+			<input type="text" placeholder="name" name="name" value="ccx">
+			<input type="text" placeholder="email" name="email" value="1261138729@qq.com">
+			<input type="text" placeholder="password" name="password" value="123456">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="login">
+		<h2>登陆</h2>
+		<form>
+			<input type="text" placeholder="email" name="email" value="1261138729@qq.com">
+			<input type="text" placeholder="password" name="password" value="123456">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="logout">
+		<h2>注销</h2>
+		<button>注销</button>
+	</div>
+	<div id="updateUser">
+		<h2>更新用户信息</h2>
+		<form enctype="multipart/form-data">
+			<input type="text" placeholder="name" name="name" value="ccccx">
+			<input type="text" placeholder="password" name="password" value="123456">
+			<select name="gender">
+				<option value="0">male</option>
+				<option value="1">female</option>
+			</select>
+			<input type="text" placeholder="autograph" name="autograph" value="test">
+			<input type="file" name="icon">
+			<input type="submit"> 
+		</form>
+	</div>
+	<div id="userExistByEmail">
+		<h2>查询该邮箱是否已经被注册</h2>
+		<input type="text" placeholder="email" value="1261138729@qq.com" name="email">
+		<button>提交</button>
+	</div>
+	<div id="getUserOnlineInfo">
+		<h2>查询当前登陆用户的基本信息</h2>
+		<button>查询</button>
+	</div>
+	<h1>新闻模块</h1>
+	<div id="findNewsListByType">
+		<h2>取出某一类新闻的某一页列表</h2>
+		<input type="text" placeholder="type:0~14" value="0" name="type">
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="addNewsConcern">
+		<h2>添加关注某类新闻</h2>
+		<input type="text" placeholder="type:0~14" value="0" name="type">
+		<button>提交</button>
+	</div>
+	<div id="getConcernList">
+		<h2>获取关注新闻列表</h2>
+		<button>获取</button>
+	</div>
+	<div id="deleteNewsConcern">
+		<h2>删除关注新闻信息</h2>
+		<input type="text" placeholder="conernId" value="8" name="concernId">
+		<button>删除</button>
+	</div>
+	<div id="addComment">
+		<h2>添加评论</h2>
+		<form>
+			<input type="text" placeholder="newsId" value="445" name="newsId">
+			<input type="text" placeholder="content" value="testComment" name="content">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="getCommentList">
+		<h2>获取评论列表</h2>
+		<input type="text" placeholder="newsId" value="445" name="newsId">
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<h1>校车模块</h1>
+	<div id="getTempBusByStartDate">
+		<h2>获取某一天的临时班车信息</h2>
+		<input type="text" placeholder="startDate" value="2016-02-08" name="startDate">
+		<button>获取</button>
+	</div>
+	<div id="getLatestBusList">
+		<h2>获取最新的定时班车表</h2>
+		<button>获取</button>
+	</div>
+	<div id="getTempBusByPoints">
+		<h2>获取某两点间运行的临时班车表</h2>
+		<input type="text" placeholder="startPoint" value="中关村" name="startPoint">
+		<input type="text" placeholder="aimPoint" value="良乡" name="aimPoint">
+		<button>获取</button>
+	</div>
+	<h1>问答模块</h1>
+	<div id="addQuestion">
+		<h2>添加问题</h2>
+		<form enctype="multipart/form-data">
+			<input type="text" placeholder="title" value="Title1" name="title">
+			<input type="text" placeholder="content" value="content" name="content">
+			<input type="text" placeholder="tags" value="testTag1" name="tags">
+			<input type="file" name="icon">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="addAnswer">
+		<h2>添加回答</h2>
+		<form>
+			<input type="text" placeholder="content" value="answerContent1" name="content">
+			<input type="text" placeholder="questionId" value="1" name="questionId">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="addAnswerAgreement">
+		<h2>添加赞</h2>
+		<form>
+			<input type="text" placeholder="answerId" value="1" name="answerId">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="deleteAnswerAgreement">
+		<h2>撤销赞</h2>
+		<form>
+			<input type="text" placeholder="answerId" value="1" name="answerId">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="adpotAnswer">
+		<h2>采纳答案</h2>
+		<form>
+			<input type="text" placeholder="answerId" value="1" name="answerId">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="getHotResolvedQuestionList">
+		<h2>查询热门的已经解决的问题</h2>
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="getUnresolvedQuestionList">
+		<h2>获取最新的未解决问题列表</h2>
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="getQuestionById">
+		<h2>查询问题详情</h2>
+		<input type="text" placeholder="id" value="1" name="id">
+		<button>提交</button>
+	</div>
+	<div id="getAnswerListByQuestionId">
+		<h2>查询某一问题的回答列表</h2>
+		<input type="text" placeholder="id" value="1" name="id">
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="getPersonalResovledQuestions">
+		<h2>获取某人已经解决的问题列表</h2>
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="getPersonalUnResovledQuestions">
+		<h2>获取某人未解决的问题列表</h2>
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<h1>失物招领模块</h1>
+	<div id="getLatestStuffList">
+		<h2>获取最近的失物信息</h2>
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="getOldStuffList">
+		<h2>获取时间较长的失物信息</h2>
+		<input type="text" placeholder="page" value="1" name="page">
+		<button>提交</button>
+	</div>
+	<div id="addLostFound">
+		<h2>发布失物信息</h2>
+		<form enctype="multipart/form-data">
+			<input type="text" placeholder="content" value="conten1" name="content">
+			<input type="text" placeholder="location" value="location1" name="location">
+			<input type="file" name="icon">
+			<input type="submit">
+		</form>
+	</div>
+	<h1>二手市场模块</h1>
+	<div id="addGood">
+		<h2>发布商品信息</h2>
+		<form enctype="multipart/form-data">
+			<input type="text" placeholder="content" value="content1" name="content">
+			<input type="text" placeholder="kind" value="0" name="kind">
+			<input type="text" placeholder="price" value="10.1" name="price">
+			<input type="text" placeholder="title" value="title1" name="title">
+			<input type="file" name="icon1">
+			<input type="file" name="icon2">
+			<input type="file" name="icon3">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="updateGood">
+		<h2>更新商品信息</h2>
+		<form>
+			<input type="text" placeholder="goodId" value="1" name="goodId">
+			<input type="text" placeholder="title" value="titleChange1" name="title">
+			<input type="text" placeholder="content" value="contentChange1" name="content">
+			<input type="text" placeholder="price" value="9.99" name="price">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="addGoodComment">
+		<h2>发表评论</h2>
+		<form>
+			<input type="text" placeholder="content" value="content1" name="content">
+			<input type="text" placeholder="goodId" value="1" name="goodId">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="updateStaleTime">
+		<h2>商品下架</h2>
+		<form>
+			<input type="text" placeholder="goodId" name="goodId" value="1">
+			<input type="submit">
+		</form>
+	</div>
+	<div id="getPersonalLatestGoodList">
+		<h2>获取当前用户未下架的商品列表</h2>
+		<input type="text" placeholder="page" name="page" value="1">
+		<button>获取</button>
+	</div>
+	<div id="getPersonalStaleGoodList">
+		<h2>获取当前用户已经下架的商品列表</h2>
+		<input type="text" placeholder="page" name="page" value="1">
+		<button>获取</button>
+	</div>
+	<div id="getLatestGoodsByType">
+		<h2>获取最近某类商品信息</h2>
+		<input type="text" placeholder="type" name="type" value="1">
+		<input type="text" placeholder="page" name="page" value="1">
+		<button>获取</button>
+	</div>
+	<div id="getHotGoodsByType">
+		<h2>获取热门商品信息</h2>
+		<input type="text" placeholder="type" name="type" value="1">
+		<input type="text" placeholder="page" name="page" value="1">
+		<button>获取</button>
+	</div>
+	<div id="getGoodById">
+		<h2>获取商品详情</h2>
+		<input type="text" placeholder="id" name="id" value="1">
+		<button>获取</button>
+	</div>
+	<div id="getCommentListByGood">
+		<h2>获取某条商品的评论列表</h2>
+		<input type="text" placeholder="goodId" name="goodId" value="1">
+		<input type="text" placeholder="page" name="page" value="1">
+		<button>获取</button>
+	</div>
+	<h1>版本控制模块</h1>
+	<div id="getLatestNumber">
+		<h2>获取最新的版本号</h2>
+		<button>获取</button>
+	</div>
+	<h1>反馈控制模块</h1>
+	<div id="addFeedback">
+		<h2>添加反馈信息</h2>
+		<form>
+			<input type="text" placeholder="content"  name="content" value="content1">
+			<select name="platForm">
+				<option value="0">Android</option>
+				<option value="1">IOS</option>
+				<option value="2">PC</option>
+			</select>
+			<input type="submit">
+		</form>
+	</div>
+	<h1>消息管理模块</h1>
+	<div id="getPersonalMessagesByModule">
+		<h2>按照模块获取某人的消息</h2>
+		<input type="text" placeholder="module" name="module" value="MODULE_GOOD">
+		<input type="text" placeholder="page" name="page" value="1">
+		<button>获取</button>
+	</div>
+	<div id="getPersonalMessageNumByModule">
+		<h2>获取某人在某个模块中的消息数量</h2>
+		<input type="text" placeholder="module" name="module" value="MODULE_GOOD">
+		<button>提交</button>
+	</div>
+	<script src="../js/jQuery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="../js/util.js"></script>
+	<script type="text/javascript">
+		//获取验证码
+		$("div#getCheckCode button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/userCheckCode",
+				type:"put",
+				data:{
+					phone:$(this).prev().val()
+				}
+			});
+		});
+		//发送验证码
+		$("div#checkCheckCode button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/userCheckCode",
+				type:"get",
+				data:{
+					checkCode:$(this).prev().val()
+				}
+			});
+		})
+		//注册账户
+		$("div#addUser form").submit(function(e){
+			var dataObj = serializeToJson(this);
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/user",
+				type:"put",
+				contentType:"application/json",
+				data:JSON.stringify(dataObj)
+			});
+		});
+		//登陆
+		$("div#login form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/login",
+				type:"post",
+				data:$(this).serialize()
+			});
+		});
+		//注销
+		$("div#logout button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/login",
+				type:"delete"
+			});
+		});
+		//更新用户信息
+		$("div#updateUser form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/user",
+				type:"post",
+				processData:false,
+				contentType:false,
+				data:new FormData(this)
+			});
+		});
+		//查询该邮箱是否已经被注册
+		$("div#userExistByEmail button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/userExistByEmail",
+				type:"get",
+				data:{
+					email:$(this).prev().val()
+				}
+			});
+		});
+		//查询当前登陆用户的基本信息
+		$("div#getUserOnlineInfo button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/user/front/userOnlineBasicInfo",
+				type:"get"
+			});
+		});
+		//取出某一类新闻的某一页列表
+		$("div#findNewsListByType button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/news/front/newsList/"+$(this).prev().prev().val(),
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//添加关注某类新闻
+		$("div#addNewsConcern button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/news/front/news/concern/"+$(this).prev().val(),
+				type:"put"
+			});
+		});
+		//获取关注新闻列表
+		$("div#getConcernList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/news/front/news/concernList",
+				type:"get"
+			});
+		});
+		//删除关注新闻信息
+		$("div#deleteNewsConcern button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/news/front/news/concern/"+$(this).prev().val(),
+				type:"delete"
+			});
+		});
+		//评论新闻
+		$("div#addComment form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/news/front/newsComment",
+				type:"put",
+				data:$(this).serialize()
+			});
+		});
+		//获取评论列表
+		$("div#getCommentList button").click(function(e){
+			var newsId = $(this).prev().prev().val();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/news/front/newsComment",
+				type:"get",
+				data:{
+					//newsId：$(this).prev().prev().val(),
+					newsId:newsId,
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取某一天的临时班车信息
+		$("div#getTempBusByStartDate button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/bus/front/tempBusListByStartDate",
+				type:"get",
+				data:{
+					startDate:$(this).prev().val()
+				}
+			});
+		});
+		//获取最新的定时班车表
+		$("div#getLatestBusList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/bus/front/LatestBusList",
+				type:"get"
+			});
+		});
+		//获取某两点间运行的临时班车表
+		$("div#getTempBusByPoints button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/bus/front/TempBusListByPoints",
+				type:"get",
+				data:{
+					startPoint:$(this).prev().prev().val(),
+					aimPoint:$(this).prev().val()
+				}
+			});
+		});
+		//添加问题
+		$("div#addQuestion form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/question",
+				type:"put",
+				processData:false,
+				contentType:false,
+				data:new FormData(this)
+			});
+		});
+		//添加回答
+		$("div#addAnswer form").submit(function(e){
+			e.preventDefault();
+			var dataObj = serializeToJson(this);
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/answer",
+				type:"put",
+				contentType:"application/json",
+				data:JSON.stringify(dataObj)
+			});
+		});
+		//添加赞
+		$("div#addAnswerAgreement form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/answerAgreement",
+				type:"put",
+				data:$(this).serialize()
+			});
+		});
+		//撤销赞
+		$("div#deleteAnswerAgreement form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/answerAgreement",
+				type:"delete",
+				data:$(this).serialize()
+			});
+		});
+		//采纳答案
+		$("div#adpotAnswer form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/bestAnswer",
+				type:"post",
+				data:$(this).serialize()
+			});
+		});
+		//查询热门的已经解决的问题
+		$("div#getHotResolvedQuestionList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/resolvedQuestions",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取最新的未解决问题列表
+		$("div#getUnresolvedQuestionList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/unresolvedQuestions",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		// 查询问题详情
+		$("div#getQuestionById button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/questionById/" + $(this).prev().val(),
+				type:"get"
+			});
+		});
+		//查询某一问题的回答列表
+		$("div#getAnswerListByQuestionId button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/answerListByQuestion/" + $(this).prev().prev().val(),
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取某人已经解决的问题列表
+		$("div#getPersonalResovledQuestions button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/personalQuestions/resolved",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取某人未解决的问题列表
+		$("div#getPersonalUnResovledQuestions button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/question/front/personalQuestions/unresolved",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取最近的失物信息
+		$("div#getLatestStuffList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/lostFound/front/LatestStuff",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取时间较长的失物信息
+		$("div#getOldStuffList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/lostFound/front/oldStuff",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//发表失物信息
+		$("div#addLostFound form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/lostFound/front/lostFound",
+				type:"put",
+				contentType:false,
+				processData:false,
+				data:new FormData(this)
+			});
+		});
+		//发布商品信息
+		$("div#addGood form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/good",
+				type:"put",
+				contentType:false,
+				processData:false,
+				data:new FormData(this)
+			});
+		});
+		//更新商品信息
+		$("div#updateGood form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/good",
+				type:"post",
+				contentType:"application/json",
+				data:JSON.stringify(serializeToJson(this))
+			});
+		});
+		//发表评论
+		$("div#addGoodComment form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/commet",
+				type:"put",
+				contentType:"application/json",
+				data:JSON.stringify(serializeToJson(this))
+			});
+		});
+		//商品下架
+		$("div#updateStaleTime form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/stale",
+				type:"post",
+				data:$(this).serialize()
+			});
+		});
+		//获取当前用户未下架的商品列表
+		$("div#getPersonalLatestGoodList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/latestGoodList",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取当前用户已经下架的商品列表
+		$("div#getPersonalStaleGoodList button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/staledGoodList",
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取最近某类商品信息
+		$("div#getLatestGoodsByType button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/latestGoods/" + $(this).prev().prev().val(),
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		})
+		//获取热门商品信息
+		$("div#getHotGoodsByType button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/hotGoods/" + $(this).prev().prev().val(),
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取问题详情
+		$("div#getGoodById button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/goodById/" + $(this).prev().val(),
+				type:"get",
+			});
+		});
+		// 获取某条商品的评论列表
+		$("div#getCommentListByGood button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/good/front/goodCommentList/" + $(this).prev().prev().val(),
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取最新版本号
+		$("div#getLatestNumber button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/version/front/latestNumber",
+				type:"get"
+			});
+		});
+		//添加反馈信息
+		$("div#addFeedback form").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"http://localhost:8080/IBIT/feedback/front/feedback",
+				type:"put",
+				contentType:"application/json",
+				data:JSON.stringify(serializeToJson(this))
+			});
+		});
+		//按照模块获取某人的消息
+		$("div#getPersonalMessagesByModule button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/message/front/personalMessages/" + $(this).prev().prev().val(),
+				type:"get",
+				data:{
+					page:$(this).prev().val()
+				}
+			});
+		});
+		//获取某人在某个模块中的消息数量
+		$("div#getPersonalMessageNumByModule button").click(function(e){
+			$.ajax({
+				url:"http://localhost:8080/IBIT/message/front/personalMessageNum/" + $(this).prev().val(),
+				type:"get"
+			});
+		});
+	</script>
+</body>
+</html>

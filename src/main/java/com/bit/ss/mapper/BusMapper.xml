@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.BusMapper">
+	<resultMap type="bus" id="busMap">
+		<id property="id" column="Bus_Id"/>
+		<result property="type" column="Bus_Type"/>
+		<result property="startPoint" column="Bus_StartPoint"/>
+		<result property="aimPoint" column="Bus_AimPoint"/>
+		<result property="seatMeasage" column="Bus_SeatMeasage"/>
+		<result property="modifyTime" column="Bus_ModifyTime" jdbcType="VARCHAR"
+			javaType="java.util.Date" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+		<result property="startTime" column="Bus_StartTime" jdbcType="VARCHAR"
+			javaType="java.util.Date" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+		<result property="midStation" column="Bus_MidStation"/>
+		<result property="charger" column="Bus_Charger"/>
+	</resultMap>
+	
+	<select id="getTempBusListByStartDate" resultMap="busMap">
+		select
+			Bus_Id,Bus_StartPoint,Bus_AimPoint
+			,Bus_SeatMeasage,Bus_ModifyTime,Bus_StartTime
+			,Bus_MidStation
+		from tbl_bus
+		where bus_type = 0 and Bus_StartTime like concat(#{startDate},'%');
+	</select>
+	
+	<select id="getLatestUpdateDate" resultType="java.util.Date">
+		select max(Bus_ModifyTime) from tbl_bus where Bus_Type = 1;
+	</select>
+	
+	<select id="getBusListByModifyDate" resultMap="busMap">
+		select Bus_Id,Bus_StartPoint,Bus_AimPoint
+			,Bus_SeatMeasage,Bus_ModifyTime,Bus_StartTime
+			,Bus_MidStation
+		from tbl_bus
+		where bus_type = 1 and Bus_ModifyTime like concat(#{modifyDate},'%');
+	</select>
+	
+	<select id="getTempBusListByPoints" resultMap="busMap">
+		select Bus_Id,Bus_StartPoint,Bus_AimPoint
+			,Bus_SeatMeasage,Bus_ModifyTime,Bus_StartTime
+			,Bus_MidStation
+		from tbl_bus
+		where bus_type = 0 and Bus_StartPoint = #{startPoint} and Bus_AimPoint = #{aimPoint}
+		order by Bus_StartTime desc
+		limit 0,30;
+	</select>
+	
+	<select id="getBusNewsList" resultMap="com.bit.ss.mapper.NewsMapper.newsMap">
+		select News_Id,News_Title,News_Url,News_PubTime
+		from tbl_news
+		where News_Type = 15
+		order by News_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getBusNewsNum" resultType="int">
+		select count(*)
+		from tbl_news
+		where News_Type = 15;
+	</select>
+	
+	<select id="getTempBusNum" resultType="int">
+		select count(*)
+		from tbl_bus
+		where Bus_Type = 0;
+	</select>
+	
+	<select id="getTempBusList" resultMap="busMap">
+		select Bus_Id,Bus_StartPoint,Bus_AimPoint,Bus_SeatMeasage
+			,Bus_ModifyTime,Bus_StartTime,Bus_MidStation,Bus_Charger
+		from tbl_bus
+		where Bus_Type = 0
+		order by Bus_ModifyTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<delete id="deleteBus">
+		delete from tbl_bus
+		where Bus_Id = #{busId};
+	</delete>
+	
+	<select id="getBusList" resultMap="busMap">
+		select Bus_Id,Bus_StartPoint,Bus_AimPoint,Bus_SeatMeasage
+			,Bus_ModifyTime,Bus_StartTime,Bus_MidStation,Bus_Charger
+		from tbl_bus
+		where Bus_Type = 1
+		order by Bus_ModifyTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getBusNum" resultType="int">
+		select count(*)
+		from tbl_bus
+		where Bus_Type = 1;
+	</select>
+	
+	<insert id="addBus">
+		insert into
+		tbl_bus(Bus_Type,Bus_StartPoint,Bus_AimPoint,Bus_SeatMeasage
+			,Bus_ModifyTime,Bus_StartTime,Bus_MidStation,Bus_Charger)
+		values(#{type},#{startPoint},#{aimPoint},#{seatMeasage}
+			,#{modifyTime,jdbcType=VARCHAR,javaType=java.util.Date}
+			,#{startTime,jdbcType=VARCHAR,javaType=java.util.Date}
+			,#{midStation},#{charger});
+	</insert>
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.GoodMapper">
+	<resultMap type="goodIcon" id="goodIconMap">
+		<id property="id" column="GoPi_Id" />
+		<result property="goodId" column="GoPi_Good_Id" />
+		<result property="url" column="GoPi_Url" />
+	</resultMap>
+
+	<resultMap type="goodComment" id="goodCommentMap">
+		<id property="id" column="GoCo_Id" />
+		<result property="goodId" column="GoCo_Good_Id" />
+		<result property="floor" column="GoCo_Floor" />
+		<result property="content" column="GoCo_Content" />
+		<result property="time" column="GoCo_Time" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<association property="owner"
+			resultMap="com.bit.ss.mapper.UserMapper.userMap" />
+	</resultMap>
+
+	<resultMap type="good" id="goodMap">
+		<id property="id" column="Good_Id" />
+		<result property="title" column="Good_Title" />
+		<result property="kind" column="Good_Kind" />
+		<result property="content" column="Good_Content" />
+		<result property="price" column="Good_Price" />
+		<result property="readTimes" column="Good_ReadTime"/>
+		<result property="pubTime" column="Good_PubTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<result property="modifyTime" column="Good_ModifyTime"
+			javaType="java.util.Date" jdbcType="VARCHAR"
+			typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<result property="staleTime" column="Good_StaleTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<result property="validation" column="Good_Validation" />
+		<association property="owner"
+			resultMap="com.bit.ss.mapper.UserMapper.userMap" />
+		<collection property="iconUrls" javaType="ArrayList"
+			ofType="goodIcon" resultMap="goodIconMap" />
+	</resultMap>
+	
+	<insert id="addGood" useGeneratedKeys="true" keyProperty="id">
+		insert into
+			tbl_good(Good_PubUser_Id,Good_Title
+				,Good_Kind,Good_Content,Good_Price,Good_PubTime
+				,Good_ModifyTime,Good_StaleTime)
+		values(#{owner.id},#{title},#{kind},#{content},#{price}
+			,#{pubTime,javaType=java.util.Date,jdbcType=VARCHAR}
+			,#{modifyTime,javaType=java.util.Date,jdbcType=VARCHAR}
+			,#{staleTime,javaType=java.util.Date,jdbcType=VARCHAR});
+	</insert>
+	
+	<insert id="addGoodIcon">
+		insert into
+			tbl_goodpics(GoPi_Good_Id,GoPi_Url)
+		values(#{goodId},#{url});
+	</insert>
+	
+	<select id="getCommentMaxFloor" resultType="int">
+		select count(*) from tbl_good_comment
+			where GoCo_Good_Id = #{goodId};
+	</select>
+	
+	<insert id="addGoodComment">
+		insert into
+			tbl_good_comment(GoCo_Good_Id,GoCo_User_Id,GoCo_Floor,GoCo_Time,GoCo_Content)
+		values(#{goodId},#{owner.id},#{floor}
+			,#{time,javaType=java.util.Date,jdbcType=VARCHAR}
+			,#{content});
+	</insert>
+	
+	<update id="updateStaleTime">
+		update tbl_good
+			set Good_StaleTime = #{staleTime,javaType=java.util.Date,jdbcType=VARCHAR}
+			where Good_Id = #{goodId};
+	</update>
+	
+	<select id="getGoodExistByUser" resultType="int">
+		select count(*)
+			from tbl_good
+		where Good_Id = #{goodId}
+			and Good_PubUser_Id = #{userId};
+	</select>
+	
+	<select id="getGoodIsStale" resultType="int">
+		select count(*)
+			from tbl_good
+		where Good_StaleTime > #{nowTime,javaType=java.util.Date,jdbcType=VARCHAR}
+			and Good_Id = #{goodId};
+	</select>
+	
+	<update id="updateGood">
+		update tbl_good
+			<set>
+				<if test="title != null">
+					Good_Title = #{title,javaType=java.lang.String,jdbcType=VARCHAR}
+				</if>
+				<if test="content != null">
+					, Good_Content = #{content}
+				</if>
+				<if test="price != null">
+					, Good_Price = #{price,javaType=java.lang.Float,jdbcType=FLOAT}
+				</if>
+			</set>
+		where Good_Id = #{goodId};
+	</update>
+	
+	<update id="updateLastModifyTime">
+		update tbl_good
+			set Good_ModifyTime = #{modifyTime,javaType=java.util.Date,jdbcType=VARCHAR}
+		where Good_Id = #{goodId};
+	</update>
+	
+	<select id="getLatestGoodsByType" resultMap="goodMap">
+		select g.Good_Id,g.Good_Title,g.Good_Price,g.Good_PubTime
+			,u.User_Username,u.User_Icon_Url
+		from tbl_good as g
+			left join tbl_user as u
+				on g.Good_PubUser_Id = u.User_Id
+		where g.Good_Kind = #{type} 
+			and g.Good_StaleTime > #{nowTime,javaType=java.util.Date,jdbcType=VARCHAR}
+		order by Good_ModifyTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getHotGoodsByType" resultMap="goodMap">
+		select g.Good_Id,g.Good_Title,g.Good_Price,g.Good_PubTime
+			,u.User_Username,u.User_Icon_Url
+		from tbl_good as g
+			left join tbl_user as u
+				on g.Good_PubUser_Id = u.User_Id
+		where g.Good_Kind = #{type} 
+			and g.Good_StaleTime > #{nowTime,javaType=java.util.Date,jdbcType=VARCHAR}
+		order by Good_ReadTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getGoodById" resultMap="goodMap">
+		select g.Good_Title,g.Good_Content,g.Good_Price,g.Good_PubTime
+			,u.User_Username,u.User_phone,u.User_email,u.User_Icon_Url,u.User_Id
+			,p.GoPi_Url
+		from tbl_good as g
+			left join tbl_goodpics as p
+				on g.Good_Id = p.GoPi_Good_Id
+			left join tbl_user as u
+				on g.Good_PubUser_Id = u.User_Id
+		where g.Good_Id = #{goodId};
+	</select>
+	
+	<update id="addReadTimeBy1">
+		update tbl_good
+			set Good_ReadTime = Good_ReadTime + 1
+		where Good_Id = #{goodId};
+	</update>
+	
+	<select id="getCommentsByGood" resultMap="goodCommentMap">
+		select c.GoCo_Floor,c.GoCo_Time,c.GoCo_Content
+			,u.User_Username,u.User_Icon_Url
+		from tbl_good_comment as c
+			left join tbl_user as u
+				on c.GoCo_User_Id = u.User_Id
+		where c.GoCo_Good_Id = #{goodId}
+		order by GoCo_Time desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getPersonalLatestGoodList" resultMap="goodMap">
+		select g.Good_Id,g.Good_Title,g.Good_Price,g.Good_PubTime
+		from tbl_good as g
+		where g.Good_StaleTime > #{nowTime,javaType=java.util.Date,jdbcType=VARCHAR}
+			and g.Good_PubUser_Id = #{userId}
+		order by Good_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getPersonalStaleGoodList" resultMap="goodMap">
+		select g.Good_Id,g.Good_Title,g.Good_Price,g.Good_PubTime
+		from tbl_good as g
+		where #{nowTime,javaType=java.util.Date,jdbcType=VARCHAR} > g.Good_StaleTime
+			and g.Good_PubUser_Id = #{userId}
+		order by Good_PubTime desc
+		limit #{start},#{num};
+	</select>
+</mapper>

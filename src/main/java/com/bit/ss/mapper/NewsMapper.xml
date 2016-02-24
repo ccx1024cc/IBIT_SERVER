@@ -5,37 +5,112 @@
 
 <mapper namespace="com.bit.ss.mapper.NewsMapper">
 
+	<resultMap type="news" id="newsMap">
+		<id property="id" column="news_id"/>
+		<result property="title" column="news_title" />
+		<result property="content" column="news_content" />
+		<result property="pubTime" column="news_pubTime" jdbcType="VARCHAR"
+			javaType="java.util.Date" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+		<result property="type" column="news_type" />
+		<result property="url" column="news_url" />
+	</resultMap>
+	
+	<resultMap type="newsConcern" id="concernMap">
+		<id property="id" column="neco_id"/>
+		<result property="userId" column="neco_user_id"/>
+		<result property="newsType" column="neco_news_type"/>
+		<result property="pubTime" column="neco_pubTime"/>
+		<result property="status" column="neco_status"/>
+		<result property="disconcernTime" column="neco_disconcern_time"/>
+	</resultMap>
+	
+	<resultMap type="newsComment" id="commentMap">
+		<id property="id" column="NeCo_Id"/>
+		<result property="newsId" column="NeCo_News_Id"/>
+		<result property="userId" column="NeCo_User_Id"/>
+		<result property="content" column="NeCo_Content"/>
+		<result property="floor" column="NeCo_Floor"/>
+		<result property="time" column="NeCo_Time" jdbcType="VARCHAR"
+			javaType="java.util.Date" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+	</resultMap>
+
 	<select id="findList" parameterType="news" resultType="news">
 		select news_id as id,news_title as title,news_pubTime as
 		pubTime,news_url as url
 		from tbl_news
 		where news_type = #{type}
 		<if test="keyword != null and keyword != ''">
-			and (news_title like '%${keyword}%' or news_pubTime like '%${keyword}%')
+			and (news_title like '%${keyword}%' or news_pubTime like
+			'%${keyword}%')
 		</if>
 		order by news_pubTime desc
 		limit #{start},#{num};
 	</select>
 
-	<select id="findNews" parameterType="news" resultType="news">
-		select news_title as title,news_pubTime as pubTime,news_content as content
-		from tbl_news
-		where news_id = #{newsID};
-	</select>
-
-	<select id="countNum" resultType="int">
+	<select id="findNewsNumByKeyword" resultType="int">
 		select count(*) from tbl_news
 		<where>
 			<if test="type != -1">
 				news_type = #{type}
 			</if>
-			<if test="pubTime != null">
-				and news_pubTime like '${pubTime}%'
-			</if>
 			<if test="keyword != null and keyword != ''">
-				and (news_title like '%${keyword}%' or news_pubTime like '%${keyword}%')
+				and (news_title like '%${keyword}%' or news_pubTime like
+				'%${keyword}%')
 			</if>
 		</where>
 		;
+	</select>
+
+	<select id="findListByType" resultMap="newsMap">
+		select
+			news_id,news_title,news_pubTime,news_url
+		from tbl_news
+		where news_type = #{type}
+		order by news_pubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<insert id="addNewsConcern">
+		insert into 
+			tbl_news_concern(neco_user_id,neco_news_type,neco_pubTime)
+		values(#{userId},#{newsType},#{pubTime});
+	</insert>
+	
+	<update id="deleteNewsConcern">
+		update tbl_news_concern
+			set neco_status = 1,neco_disconcern_time = #{disConcernDate}
+			where neco_id = #{id};
+	</update>
+	
+	<select id="getNewsConcernList" resultMap="concernMap">
+		select neco_id,neco_news_type from tbl_news_concern
+			where neco_status = 0
+				and neco_user_id = #{userId};
+	</select>
+	
+	<select id="getConcernNumByUserAndType" resultType="int">
+		select count(*) from tbl_news_concern
+			where neco_status = 0
+				and neco_user_id = #{userId}
+				and neco_news_type = #{type};
+	</select>
+	
+	<insert id="addNewsComment" parameterType="newsComment" useGeneratedKeys="true" keyProperty="id">
+		insert into 
+			tbl_news_comment(NeCo_News_Id,NeCo_User_Id,NeCo_Floor,NeCo_Time,NeCo_Content)
+		values(#{newsId},#{userId},#{floor},#{time},#{content});
+	</insert>
+	
+	<select id="getCommentNumByNews" resultType="int">
+		select count(*) from tbl_news_comment
+			where neco_news_id = #{newsId};
+	</select>
+	
+	<select id="getNewsCommentList" resultMap="commentMap">
+		select NeCo_Id,NeCo_Floor,NeCo_Time,NeCo_Content
+		from tbl_news_comment
+		where NeCo_News_Id = #{newsId}
+		order by NeCo_Time desc
+		limit #{start},#{num};
 	</select>
 </mapper>

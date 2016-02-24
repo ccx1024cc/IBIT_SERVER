@@ -15,12 +15,26 @@
 		<spring.version>4.2.1</spring.version>
 		<aspectj.version>1.8.7</aspectj.version>
 		<atomikos.version>3.9.3</atomikos.version>
-		<httpclient.version>3.1</httpclient.version>
+		<httpclient.version>4.5</httpclient.version>
 		<hessian.version>4.0.38</hessian.version>
 	</properties>
 
 	<dependencies>
 	
+		<!-- imgscalr -->
+		<dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+		</dependency>
+	
+		<!-- io utility -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		
 		<!-- hessian -->
 		<dependency>
 			<groupId>com.caucho</groupId>
@@ -30,9 +44,9 @@
 
 		<!-- httpclient -->
 		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
 		</dependency>
 		
 

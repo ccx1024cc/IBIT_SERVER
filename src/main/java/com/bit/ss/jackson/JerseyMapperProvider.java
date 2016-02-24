@@ -47,7 +47,8 @@ public class JerseyMapperProvider implements ContextResolver<ObjectMapper> {
 
 	private static ObjectMapper createDefinedObjectMapper() {
 		return new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, false)
-				.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true).setSerializationInclusion(Include.NON_NULL)
+				.setSerializationInclusion(Include.NON_NULL).setSerializationInclusion(Include.NON_EMPTY)
+				.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false).setSerializationInclusion(Include.NON_NULL)
 				.setAnnotationIntrospector(createJaxbJacksonAnnotationIntrospector());
 	}
 

@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.bit.ss.domain.News;
+import com.bit.ss.model.News;
 
 /**
  * @Title: TestStuff.java

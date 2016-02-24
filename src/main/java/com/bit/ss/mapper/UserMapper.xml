@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.UserMapper">
+	<resultMap type="authority" id="authorityMap">
+		<id property="id" column="Auth_Id"/>
+		<result property="name" column="Auth_Name"/>
+		<result property="grandUser" column="Auth_grandUser"/>
+		<result property="grandTime" column="auth_grandTime"/>
+		<result property="userId" column="Auth_User_Id"/>
+	</resultMap>
+
+	<resultMap type="user" id="userMap">
+		<id property="id" column="user_id"/>
+		<result property="name" column="user_username"/>
+		<result property="password" column="user_password"/>
+		<result property="phone" column="user_phone"/>
+		<result property="gender" column="user_gender"/>
+		<result property="email" column="user_email"/>
+		<result property="autograph" column="User_Autograph"/>
+		<result property="iconUrl" column="User_Icon_Url"/>
+		<result property="date" column="User_Time" javaType="java.util.Date" jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler"/>
+		<collection property="auths" javaType="ArrayList" ofType="authority">
+			<id property="id" column="auth_id"/>
+			<result property="userId" column="auth_userId"/>
+			<result property="name" column="auth_name"/>
+			<result property="grandUser" column="auth_grandUser"/>
+			<result property="grandTime" column="auth_grandTime"/>
+		</collection>
+	</resultMap>
+
+	<select id="findUserByAccount" resultMap="userMap">
+		select 
+			u.user_id,u.user_username,pwd_decrypt(u.user_password,'IBIT')
+			,u.user_phone,u.user_gender,u.user_email
+		    ,u.user_autograph,u.user_icon_url,u.user_time
+		    ,a.Auth_Id,a.Auth_User_Id
+		    ,authority_decrypt(a.auth_name,'IBIT') as Auth_Name
+		    ,a.auth_grandUser,a.Auth_grandTime
+		from 
+			tbl_user as u left join tbl_authority as a
+		on
+			a.auth_user_id = u.user_id
+		where
+		   	user_email=#{email} 
+			and user_password = pwd_encrypt(#{pwd},'IBIT');
+	</select>
+	
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+		insert into tbl_user(user_username,user_password,user_phone,user_email,
+			user_icon_url,user_time)
+		values(
+			#{name},pwd_encrypt(#{password},'IBIT'),#{phone},#{email},#{iconUrl},
+			#{date,jdbcType=VARCHAR,javaType=java.util.Date}
+		)
+	</insert>
+	
+	<update id="updateUser" parameterType="user">
+		update tbl_user
+			<set>
+				<if test="name != null">
+					user_username = #{name}
+				</if>
+				<if test="password != null">
+					,user_password = pwd_encrypt(#{password},'IBIT')
+				</if>
+				<if test="gender != null">
+					,user_gender = #{gender}
+				</if>
+				<if test="autograph != null">
+					,user_autograph = #{autograph}
+				</if>
+				<if test="iconUrl != null">
+					,user_icon_url = #{iconUrl}
+				</if>
+			</set>
+		where user_id = #{id};
+	</update>
+	
+	<select id="findUserNumByPhone" resultType="int">
+		select count(*) from tbl_user where user_phone = #{phone};
+	</select>
+	<select id="findUserNumByEmail" resultType="int">
+		select count(*) from tbl_user where user_email = #{email};
+	</select>
+	<select id="findUsersByCondition" resultMap="userMap">
+		select u.User_Id,u.User_Username,u.User_phone,u.User_email
+			,authority_decrypt(a.auth_name,'IBIT') as Auth_Name
+		from tbl_user as u 
+			left join tbl_authority as a
+				on	a.auth_user_id = u.user_id
+		<where>
+			<if test="user.id != null">
+				u.User_Id = #{user.id}
+			</if>
+			<if test="user.name != null">
+				and u.User_Username = #{user.name}
+			</if>
+			<if test="user.phone != null">
+				and u.User_phone = #{user.phone}
+			</if>
+			<if test="user.gender != null">
+				and u.User_gender = #{user.gender}
+			</if>
+			<if test="user.email != null">
+				and u.User_email = #{user.email}
+			</if>
+			<if test="user.auths != null">
+				and a.Auth_Name in 
+				<foreach collection="user.auths" open="(" close=")"
+					separator="," item="item">
+					#{item.name}
+				</foreach>
+			</if>
+		</where>     
+		order by User_Time desc
+		limit #{start},#{num}
+		;
+	</select>
+	
+	<select id="findUserNumByCondition" resultType="int">
+		select count(*)
+		from tbl_user as u 
+			left join tbl_authority as a
+				on	a.auth_user_id = u.user_id
+		<where>
+			<if test="id != null">
+				u.User_Id = #{user.id}
+			</if>
+			<if test="name != null">
+				and u.User_Username = #{name}
+			</if>
+			<if test="phone != null">
+				and u.User_phone = #{phone}
+			</if>
+			<if test="gender != null">
+				and u.User_gender = #{gender}
+			</if>
+			<if test="email != null">
+				and u.User_email = #{email}
+			</if>
+			<if test="auths != null">
+				and a.Auth_Name in 
+				<foreach collection="auths" open="(" close=")"
+					separator="," item="item">
+					authority_encrypt(#{item.name},'IBIT')
+				</foreach>
+			</if>
+		</where>;
+	</select>
+	
+	<select id="getPersonalAuthNum" resultType="int">
+		select count(*)
+		from tbl_authority
+		where Auth_User_Id = #{userId}
+			and Auth_Name = authority_encrypt(#{authority},'IBIT');
+	</select>
+	
+	<insert id="addAuth">
+		insert into
+			tbl_authority(Auth_User_Id,Auth_Name,Auth_grandUser,Auth_grandTime)
+		values(#{userId},authority_encrypt(#{name},'IBIT'),#{grandUser}
+			,#{grandTime,jdbcType=VARCHAR,javaType=java.util.Date});
+	</insert>
+	
+	<delete id="deleteAuth">
+		delete from tbl_authority
+		where Auth_Id = #{authId};
+	</delete>
+	
+	<select id="getPersonalAuth" resultMap="authorityMap">
+		select a.Auth_Id,a.Auth_User_Id,
+			authority_decrypt(a.Auth_Name,'IBIT') as Auth_Name
+			,a.Auth_grandUser,a.Auth_grandTime
+		from tbl_authority as a
+		where Auth_User_Id = #{userId};
+	</select>
+	
+	<select id="getUserNameById" resultType="java.lang.String">
+		select User_Username from tbl_user
+		where User_Id = #{userId};
+	</select>
+	
+	<select id="getUserDetail" resultMap="userMap">
+		select u.User_Id,u.User_Username
+			,pwd_decrypt(u.User_password,'IBIT') as user_password
+			,u.User_phone,u.User_gender,u.User_email,u.User_Autograph
+			,u.User_Time
+		from tbl_user as u
+		where u.User_Id = #{userId};
+	</select>
+	
+	<update id="updateUserDetail">
+		update tbl_user
+			<set>
+				<if test="name != null">
+					user_username = #{name}
+				</if>
+				<if test="password != null">
+					,user_password = pwd_encrypt(#{password},'IBIT')
+				</if>
+				<if test="gender != null">
+					,user_gender = #{gender}
+				</if>
+				<if test="autograph != null">
+					,user_autograph = #{autograph}
+				</if>
+				<if test="phone != null">
+					,User_phone = #{phone}
+				</if>
+				<if test="email != null">
+					,User_email = #{email}
+				</if>
+			</set>
+		where user_id = #{id};
+	</update>
+	
+	<select id="findUserNumByPhoneExceptOne" resultType="int">
+		select count(*)
+		from tbl_user
+		where User_phone = #{phone}
+			and User_Id != #{userId};
+	</select>
+	
+	<select id="findUserNumByEmailExceptOne" resultType="int">
+		select count(*)
+		from tbl_user
+		where User_email = #{email}
+			and User_Id != #{userId};
+	</select>
+	
+	<insert id="addUserByAdmin" useGeneratedKeys="true" keyProperty="id">
+		insert into 
+			tbl_user(User_Username,User_password,User_phone,User_gender
+			,User_email,User_Autograph,User_Icon_Url,User_Time)
+		values(#{name},pwd_encrypt(#{password},'IBIT'),#{phone},#{gender}
+			,#{email},#{autograph},#{iconUrl},
+			#{date,jdbcType=VARCHAR,javaType=java.util.Date})
+	</insert>
+</mapper>

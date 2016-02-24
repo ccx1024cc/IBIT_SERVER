@@ -1,5 +1,8 @@
 package com.bit.ss.exception;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
@@ -11,8 +14,6 @@ import javax.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.bit.ss.domain.ExceptionCode;
 
 /**
  * @Title: ExceptionMapper.java
@@ -33,24 +34,36 @@ public class DefinedExceptionMapper implements ExceptionMapper<Exception> {
 	@Override
 	public Response toResponse(Exception arg0) {
 		Status status = Status.INTERNAL_SERVER_ERROR;
-		String uri = req.getRequestURI();
-		String code = null;
-		String message = null;
-		Object[] params = null;
-		if (arg0 instanceof BaseException) {
-			BaseException baseException = (BaseException) arg0;
-			message = baseException.getMessage();
-			params = baseException.getValues();
-			code = baseException.getCode();
-			if (code.equals(ExceptionCode.NOT_LOGIN)) {
-				status = Status.UNAUTHORIZED;
-			}
+		String message = "unhandled exception ： " + arg0.toString();
+		// 封锁在系统内部的异常
+		if (arg0 instanceof InnerException) {
+			log.error("uri : {}\nmessage : {}\n", req.getRequestURL(), arg0.toString());
+		}
+		// 可向外部传播的异常
+		else if (arg0 instanceof OuterException) {
+			OuterException exception = (OuterException) arg0;
+			message = exception.getShortcut();
+			status = exception.getStatus();
+			log.info("uri : {}\nmessage : {}\n", req.getRequestURL(), message);
 		} else if (arg0 instanceof NotFoundException) {
-			status = Status.NOT_FOUND;
+			try {
+				// 欢迎页面定位登录页面
+				if (req.getRequestURI().toString().equals("/IBIT/")) {
+					return Response.temporaryRedirect(new URI(req.getContextPath() + "/resources/pages/login.html"))
+							.build();
+				} else {
+					return Response.status(Status.NOT_FOUND).build();
+				}
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
+		// 未处理的异常种类
+		else {
+			log.error("uri : {}\nmessage : {}\n", req.getRequestURL(), message);
 		}
 
-		log.error("uri : {}\nerrorcode : {}\nmessage : {}\nparams[] : {}\n", uri, code, message, params);
-
-		return Response.ok().type(MediaType.TEXT_PLAIN).status(status).build();
+		// arg0.printStackTrace();
+		return Response.ok().type(MediaType.TEXT_PLAIN).status(status).entity(message).build();
 	}
 }

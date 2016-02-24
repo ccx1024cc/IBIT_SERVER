@@ -1,13 +1,15 @@
 package com.bit.ss.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bit.ss.dao.INewsDAO;
-import com.bit.ss.domain.News;
-import com.bit.ss.domain.NewsComment;
+import com.bit.ss.mapper.NewsMapper;
+import com.bit.ss.model.News;
+import com.bit.ss.model.NewsComment;
+import com.bit.ss.model.NewsConcern;
 
 /**   
  * @Title: NewsServiceImpl.java 
@@ -21,36 +23,53 @@ import com.bit.ss.domain.NewsComment;
 public class NewsServiceImpl implements INewsService {
 
 	@Autowired
-	private INewsDAO newsDAO;
+	private NewsMapper newsMapper;
 
 	@Override
-	public int findCount(int type, String pubTime, String keyword) {
-		int num = newsDAO.getNewsNum(type, pubTime, keyword);
-		return num;
+	public int findCountByKeyword(int type, String keyword) {
+		return newsMapper.findNewsNumByKeyword(type, keyword);
 	}
 
 	@Override
 	public List<News> findList(int page, int type, String keyword) {
-		return newsDAO.findList(pageSize, page, type, keyword);
+		int start = (page - 1) * NEWSPAGESIZE;
+		return newsMapper.findList(start, NEWSPAGESIZE, type, keyword);
 	}
 
 	@Override
-	public News findNews(int newsID) {
-		return newsDAO.findNews(newsID);
+	public List<News> findNewsListByType(int type, int page) {
+		int start = (page - 1) * NEWSPAGESIZE;
+		return newsMapper.findListByType(type, start, NEWSPAGESIZE);
 	}
 
 	@Override
-	public List<NewsComment> findCommentList(int start, int num, int newsID) {
-		return newsDAO.findCommentList(start, num, newsID);
+	public int addNewsConcern(int userId, int newsType) {
+		int num = newsMapper.getConcernNumByUserAndType(userId, newsType);
+		if (num > 0)
+			return num;
+		return newsMapper.addNewsConcern(userId, newsType, new Date());
 	}
 
 	@Override
-	public int getCommentNum(int newsID) {
-		return newsDAO.getCommentNum(newsID);
+	public int deleteNewsConcern(int concernId) {
+		return newsMapper.deleteNewsConcern(concernId, new Date());
 	}
 
 	@Override
-	public void insertComment(NewsComment comment) {
-		newsDAO.insertComment(comment);
+	public List<NewsConcern> getConcernList(int userId) {
+		return newsMapper.getNewsConcernList(userId);
+	}
+
+	@Override
+	public int addComment(NewsComment comment) {
+		int floor = newsMapper.getCommentNumByNews(comment.getNewsId()) + 1;
+		comment.setFloor(floor);
+		return newsMapper.addNewsComment(comment);
+	}
+
+	@Override
+	public List<NewsComment> getCommentList(int newsId, int page) {
+		int start = page - 1;
+		return newsMapper.getNewsCommentList(newsId, start, COMMENTPAGESIZE);
 	}
 }

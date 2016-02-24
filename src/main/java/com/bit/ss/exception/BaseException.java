@@ -1,52 +1,35 @@
 package com.bit.ss.exception;
 
-/**
- * @Title: BaseException.java
- * @Package com.bit.ss.exception
- * @Description: 系统异常基类
- * @author CCX
- * @date 2015年10月29日 上午9:41:52
- * @version V1.0
- */
+/**   
+* @Title: BaseException.java 
+* @Package com.bit.ss.exception 
+* @Description:  异常基类
+* @author CCX
+* @date 2016年1月31日 下午5:03:00 
+* @version V1.0   
+*/
 public class BaseException extends RuntimeException {
 
-	private static final long serialVersionUID = -5720861015297238892L;
-	// message key
-	protected String code;
-	// message params
-	protected Object[] values;
+	private static final long serialVersionUID = 2440817944498475788L;
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public Object[] getValues() {
-		return values;
-	}
-
-	public void setValues(Object[] values) {
-		this.values = values;
-	}
-
-	/**
-	 * 包装系统错误
-	 * 
-	 */
-	public BaseException(String message, Throwable cause, String code, Object[] values) {
-		super(message, cause);
-		this.code = code;
-		this.values = values;
-	}
+	protected String shortcut = "BASE";
+	protected String description = "异常基类";
 	
-	/**
-	 * 自定义错误
-	 */
-	public BaseException(String message,String code) {
-		super(message,null);
-		this.code = code;
+
+	public String getShortcut() {
+		return shortcut;
 	}
+
+	public void setShortcut(String shortcut) {
+		this.shortcut = shortcut;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }

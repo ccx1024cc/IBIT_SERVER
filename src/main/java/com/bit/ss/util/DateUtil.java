@@ -46,13 +46,19 @@ public class DateUtil {
 	 * @return Date    返回类型 
 	 * @throws
 	 */
-	public Date parse(String date, String formatStr) throws ParseException {
-		if (date == null)
+	public Date parse(String date, String formatStr) {
+		try {
+			if (date == null)
+				return null;
+			if (formatStr == null)
+				formatStr = DATE_TIME_FORMAT;
+			SimpleDateFormat df = new SimpleDateFormat(formatStr);
+			return df.parse(date);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
-		if (formatStr == null)
-			formatStr = DATE_TIME_FORMAT;
-		SimpleDateFormat df = new SimpleDateFormat(formatStr);
-		return df.parse(date);
+		}
+
 	}
 
 	/**
@@ -66,6 +72,22 @@ public class DateUtil {
 		if (date == null)
 			return null;
 		long time = date.getTime() + (24 * 3600 * 1000l) * n;
+		Date dateTarget = (Date) date.clone();
+		dateTarget.setTime(time);
+		return dateTarget;
+	}
+
+	/**
+	 * 
+	 * @Title: nDaysBeforeOneDate 
+	 * @Description: 返回某一天之前n天的日期
+	 * @return Date    返回类型 
+	 * @throws
+	 */
+	public Date nDaysBeforeOneDate(Date date, int n) {
+		if (date == null)
+			return null;
+		long time = date.getTime() - (24 * 3600 * 1000l) * n;
 		Date dateTarget = (Date) date.clone();
 		dateTarget.setTime(time);
 		return dateTarget;

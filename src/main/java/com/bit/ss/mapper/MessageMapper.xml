@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.ss.mapper.MessageMapper">
+	<resultMap type="message" id="messageMap">
+		<id property="id" column="Mess_Id" />
+		<result property="service" column="Mess_Service" />
+		<result property="module" column="Mess_Module" />
+		<result property="content" column="Mess_Content" />
+		<result property="pubTime" column="Mess_PubTime" javaType="java.util.Date"
+			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
+		<association property="owner"
+			resultMap="com.bit.ss.mapper.UserMapper.userMap" />
+	</resultMap>
+	
+	<insert id="addMessage" useGeneratedKeys="true" keyProperty="id">
+		insert into
+			tbl_message(Mess_User_Id,Mess_Service
+				,Mess_Module,Mess_Content,Mess_PubTime)
+		values(#{owner.id},#{service},#{module},#{content}
+			,#{pubTime,javaType=java.util.Date,jdbcType=VARCHAR});
+	</insert>
+	
+	<update id="updateIdRead">
+		update tbl_message
+		set Mess_Has_Read = 1 where Mess_Id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item.id}
+		</foreach>
+		;
+	</update>
+	
+	<select id="getPersonalMessagesByModule" resultMap="messageMap">
+		select Mess_Content,Mess_PubTime,Mess_Id
+		from tbl_message
+		where Mess_User_Id = #{userId} and Mess_Module = #{module}
+		order by Mess_Has_Read asc,Mess_PubTime desc
+		limit #{start},#{num};
+	</select>
+	
+	<select id="getPersonalMessageNumByModule" resultType="int">
+		select count(*)
+		from tbl_message
+		where Mess_User_Id = #{userId} and Mess_Module = #{module}
+			and Mess_Has_Read = 0;
+	</select>
+</mapper>
