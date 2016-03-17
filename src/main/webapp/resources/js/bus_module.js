@@ -304,10 +304,10 @@ function addBusEvent(element, e) {
 					"<div class=\"form-group\">"
 							+ "<div class=\"col-xs-6\">"
 							+ "<label>StartTime</label>"
-							+ "<input type=\"text\" name=\"startTime_d\" class=\"form-control\" data-mask></div>"
+							+ "<input type=\"text\" name=\"startTime_d\" class=\"form-control\" placeholder=\"yyyy-mm-dd\" data-mask></div>"
 							+ "<div class=\"col-xs-6\">"
 							+ "<label>StartTime</label>"
-							+ "<input type=\"text\" name=\"startTime_t\" class=\"form-control\" data-mask>"
+							+ "<input type=\"text\" name=\"startTime_t\" class=\"form-control\" placeholder=\"hh:mm:ss\" data-mask>"
 							+ "</div></div>")
 			// 添加负责人
 			.append(
@@ -357,13 +357,13 @@ function addBusEvent(element, e) {
 	add = null;
 
 	// 设置日期数据格式
-	$("input[name=\"startTime_d\"]").inputmask("yyyy-mm-dd", {
-		"placeholder" : "yyyy-mm-dd"
-	});
-	$("input[name=\"startTime_t\"]").inputmask("hh:mm:ss", {
-		"placeholder" : "hh:mm:ss"
-	});
-	$("[data-mask]").inputmask();
+	// $("input[name=\"startTime_d\"]").inputmask("yyyy-mm-dd", {
+	// "placeholder" : "yyyy-mm-dd"
+	// });
+	// $("input[name=\"startTime_t\"]").inputmask("hh:mm:ss", {
+	// "placeholder" : "hh:mm:ss"
+	//	});
+	//$("[data-mask]").inputmask();
 }
 
 // 校车信息向后翻页

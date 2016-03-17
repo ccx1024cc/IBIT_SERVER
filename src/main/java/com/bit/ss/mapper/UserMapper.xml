@@ -111,7 +111,7 @@
 				and a.Auth_Name in 
 				<foreach collection="user.auths" open="(" close=")"
 					separator="," item="item">
-					#{item.name}
+					authority_encrypt(#{item.name},'IBIT')
 				</foreach>
 			</if>
 		</where>     
@@ -127,7 +127,7 @@
 				on	a.auth_user_id = u.user_id
 		<where>
 			<if test="id != null">
-				u.User_Id = #{user.id}
+				u.User_Id = #{id}
 			</if>
 			<if test="name != null">
 				and u.User_Username = #{name}

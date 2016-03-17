@@ -88,7 +88,7 @@ public class BusController {
 	 */
 	@GET
 	@Path("admin/busNewsList")
-	public List<News> getBusNewsList(@QueryParam("page") int page) {
+	public List<News> adminGetBusNewsList(@QueryParam("page") int page) {
 		return busService.getBusNewsList(page);
 	}
 
@@ -102,7 +102,7 @@ public class BusController {
 	@GET
 	@Path("admin/busNewsNum")
 	@Produces(MediaType.TEXT_PLAIN)
-	public int getBusNewsNum() {
+	public int adminGetBusNewsNum() {
 		return busService.getBusNewsNum();
 	}
 
@@ -116,7 +116,7 @@ public class BusController {
 	@GET
 	@Path("admin/tempBusNum")
 	@Produces(MediaType.TEXT_PLAIN)
-	public int getTempBusNum() {
+	public int adminGetTempBusNum() {
 		return busService.getTempBusNum();
 	}
 
@@ -129,7 +129,7 @@ public class BusController {
 	 */
 	@GET
 	@Path("admin/tempBusList")
-	public List<Bus> getTempBusList(@QueryParam("page") int page) {
+	public List<Bus> adminGetTempBusList(@QueryParam("page") int page) {
 		return busService.getTempBusList(page);
 	}
 
@@ -142,7 +142,7 @@ public class BusController {
 	 */
 	@DELETE
 	@Path("admin/bus")
-	public Response deleteBus(@FormParam("busId") int busId) {
+	public Response adminDeleteBus(@FormParam("busId") int busId) {
 		busService.deleteBus(busId);
 		return Response.ok().build();
 	}
@@ -156,7 +156,7 @@ public class BusController {
 	 */
 	@GET
 	@Path("admin/busList")
-	public List<Bus> getBusList(@QueryParam("page") int page) {
+	public List<Bus> adminGetBusList(@QueryParam("page") int page) {
 		return busService.getBusList(page);
 	}
 
@@ -170,7 +170,7 @@ public class BusController {
 	@GET
 	@Path("admin/busNum")
 	@Produces(MediaType.TEXT_PLAIN)
-	public int getBusNum() {
+	public int adminGetBusNum() {
 		return busService.getBusNum();
 	}
 
@@ -183,7 +183,7 @@ public class BusController {
 	 */
 	@PUT
 	@Path("admin/bus")
-	public Response addBus(JsonNode node) {
+	public Response adminAddBus(JsonNode node) {
 		Bus bus = new Bus();
 		bus.setAimPoint(node.get("aimPoint").asText());
 		bus.setCharger(node.get("charger").asText());

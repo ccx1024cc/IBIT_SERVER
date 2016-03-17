@@ -59,7 +59,7 @@ public class VersionController {
 	@GET
 	@Path("admin/versionNum")
 	@Produces(MediaType.TEXT_PLAIN)
-	public int getVersionNum() {
+	public int adminGetVersionNum() {
 		return versionService.getVersionNum();
 	}
 
@@ -72,7 +72,7 @@ public class VersionController {
 	 */
 	@GET
 	@Path("admin/versionList")
-	public List<Version> getVersionList(@QueryParam("page") int page) {
+	public List<Version> adminGetVersionList(@QueryParam("page") int page) {
 		return versionService.getVersionList(page);
 	}
 
@@ -85,7 +85,7 @@ public class VersionController {
 	 */
 	@PUT
 	@Path("admin/version")
-	public Response addVersion(JsonNode jsonNode) {
+	public Response adminAddVersion(JsonNode jsonNode) {
 		Version version = new Version();
 		version.setDescription(jsonNode.get("description").asText());
 		version.setNumber(jsonNode.get("number").asText());

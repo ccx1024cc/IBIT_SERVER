@@ -30,6 +30,14 @@
       <param-value>freemarker</param-value>
     </init-param>
     <init-param>
+      <param-name>jersey.config.server.mvc.caching.freemarker</param-name>
+      <param-value>60000</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jersey.config.server.mvc.encoding.freemarker</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
       <param-name>readonly</param-name>
       <param-value>false</param-value>
     </init-param>

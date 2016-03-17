@@ -353,7 +353,7 @@ public class UserController {
 	@Path("admin/search")
 	public List<User> adminSearchUsers(@QueryParam("userId") Integer userId, @QueryParam("name") String name,
 			@QueryParam("phone") String phone, @QueryParam("gender") Integer gender, @QueryParam("email") String email,
-			@QueryParam("authorty") String authority, @QueryParam("page") int page) {
+			@QueryParam("authority") String authority, @QueryParam("page") int page) {
 		User user = new User();
 		if (authority != null) {
 			List<Authority> authorities = new ArrayList<>();
@@ -386,11 +386,13 @@ public class UserController {
 			@QueryParam("phone") String phone, @QueryParam("gender") Integer gender, @QueryParam("email") String email,
 			@QueryParam("authority") String authority) {
 		User user = new User();
-		List<Authority> authorities = new ArrayList<>();
-		Authority temp = new Authority();
-		temp.setName(authority);
-		authorities.add(temp);
-		user.setAuths(authorities);
+		if (authority != null) {
+			List<Authority> authorities = new ArrayList<>();
+			Authority temp = new Authority();
+			temp.setName(authority);
+			authorities.add(temp);
+			user.setAuths(authorities);
+		}
 
 		user.setEmail(email);
 		user.setGender(gender);
@@ -424,7 +426,7 @@ public class UserController {
 			throw new OuterException(Status.UNAUTHORIZED, OuterException.NOT_ENOUGH_AUTH);
 		}
 
-		//保证root用户只有一个
+		// 保证root用户只有一个
 		if (authority.equals("root")) {
 			throw new OuterException(Status.UNAUTHORIZED, OuterException.NOT_ENOUGH_AUTH);
 		}

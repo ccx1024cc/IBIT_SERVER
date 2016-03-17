@@ -31,7 +31,8 @@ public class MessageServiceImpl implements IMessageService {
 	public List<Message> getPersonalMessagesByModule(String module, int userId, int page) {
 		int start = (page - 1) * PAGESIZE;
 		List<Message> messages = messageMapper.getPersonalMessagesByModule(module, userId, start, PAGESIZE);
-		messageMapper.updateIdRead(messages);
+		if (messages != null && !messages.isEmpty())
+			messageMapper.updateIdRead(messages);
 		return messages;
 	}
 

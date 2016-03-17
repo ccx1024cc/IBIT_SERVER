@@ -83,6 +83,7 @@ function searchEvent(element, e) {
 				$.ajax({
 					url : "../../user/admin/searchNum",
 					type : "get",
+					data : currentPage.searchCondition,
 					success : function(data) {
 						currentPage.totalPage = Math.ceil(data / 30);
 						if (currentPage.totalPage == 0) {
