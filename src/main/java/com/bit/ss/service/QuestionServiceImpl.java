@@ -36,7 +36,7 @@ public class QuestionServiceImpl implements IQuestionService {
 	@Override
 	public List<Question> getUnresolvedQuestionList(int page) {
 		int start = (page - 1) * QUESTION_PAGESIZE;
-		return questionMapper.getUnresolvedQuestions(start, page);
+		return questionMapper.getUnresolvedQuestions(start, QUESTION_PAGESIZE);
 	}
 
 	@Override

@@ -78,7 +78,8 @@ public class QuestionController {
 	@GET
 	@Path("front/unresolvedQuestions")
 	public List<Question> getUnresolvedQuestionList(@QueryParam("page") int page) {
-		return questionService.getUnresolvedQuestionList(page);
+		List<Question> list =  questionService.getUnresolvedQuestionList(page);
+		return list;
 	}
 
 	/**
