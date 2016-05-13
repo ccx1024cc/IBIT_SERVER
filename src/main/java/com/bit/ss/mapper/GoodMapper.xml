@@ -157,14 +157,14 @@
 	</update>
 	
 	<select id="getCommentsByGood" resultMap="goodCommentMap">
-		select c.GoCo_Floor,c.GoCo_Time,c.GoCo_Content
+		select c.GoCo_Id,c.GoCo_Floor,c.GoCo_Time,c.GoCo_Content
 			,u.User_Username,u.User_Icon_Url
 		from tbl_good_comment as c
 			left join tbl_user as u
 				on c.GoCo_User_Id = u.User_Id
-		where c.GoCo_Good_Id = #{goodId}
-		order by GoCo_Time desc
-		limit #{start},#{num};
+		where c.GoCo_Good_Id = 1
+		order by c.GoCo_Time desc
+		limit 0,20;
 	</select>
 	
 	<select id="getPersonalLatestGoodList" resultMap="goodMap">

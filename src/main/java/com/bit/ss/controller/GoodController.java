@@ -327,6 +327,7 @@ public class GoodController {
 	@GET
 	@Path("front/goodCommentList/{goodId}")
 	public List<GoodComment> getCommentListByGood(@PathParam("goodId") int goodId, @QueryParam("page") int page) {
-		return goodService.getCommentListByGood(goodId, page);
+		List<GoodComment> result = goodService.getCommentListByGood(goodId, page);
+		return result;
 	}
 }

@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.bit.ss.jackson.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
@@ -27,6 +29,7 @@ public class LostFound {
 	private int validation; // 0：待审核，1：通过，2：未能通过审核
 	private String content;
 	private String location;
+	@JsonInclude(Include.ALWAYS)
 	private String iconUrl;
 	private User publisher;// 发布者
 

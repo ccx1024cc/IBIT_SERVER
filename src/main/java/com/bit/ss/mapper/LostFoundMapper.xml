@@ -9,7 +9,7 @@
 		<result property="validation" column="LoFo_Validation" />
 		<result property="content" column="LoFo_Content" />
 		<result property="location" column="LoFo_Location" />
-		<result property="iconUrl" column="iconUrl"/>
+		<result property="iconUrl" column="LoFo_icon_url"/>
 		<result property="outDate" column="LoFo_outDate" javaType="java.util.Date"
 			jdbcType="VARCHAR" typeHandler="com.bit.ss.typehandler.DateHandler" />
 		<result property="pubTime" column="LoFo_PubTime" javaType="java.util.Date"
