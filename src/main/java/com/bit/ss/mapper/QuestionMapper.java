@@ -63,8 +63,8 @@ public interface QuestionMapper {
 	 * @return List<Answer>    返回类型 
 	 * @throws
 	 */
-	public List<Answer> getAnswerListByQuestionId(@Param("questionId") int questionId, @Param("userId") Integer userId,
-			@Param("start") int start, @Param("num") int num);
+	public List<Answer> getAnswerListByQuestionId(@Param("questionId") int questionId, @Param("start") int start,
+			@Param("num") int num);
 
 	/**
 	 * 

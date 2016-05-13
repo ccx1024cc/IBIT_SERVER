@@ -52,7 +52,7 @@ public interface IQuestionService {
 	 * @return List<Answer>    返回类型 
 	 * @throws
 	 */
-	public List<Answer> getAnswerListByQuestionId(int questionId, int page, Integer userId);
+	public List<Answer> getAnswerListByQuestionId(int questionId, int page);
 
 	/**
 	 * 

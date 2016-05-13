@@ -46,9 +46,9 @@ public class QuestionServiceImpl implements IQuestionService {
 	}
 
 	@Override
-	public List<Answer> getAnswerListByQuestionId(int questionId, int page, Integer userId) {
+	public List<Answer> getAnswerListByQuestionId(int questionId, int page) {
 		int start = ANSWER_PAGESIZE * (page - 1);
-		return questionMapper.getAnswerListByQuestionId(questionId, userId, start, ANSWER_PAGESIZE);
+		return questionMapper.getAnswerListByQuestionId(questionId, start, ANSWER_PAGESIZE);
 	}
 
 	@Override

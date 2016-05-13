@@ -94,9 +94,6 @@
 				on a.Answ_Id = an.Agre_Ans_Id
 		<where>
 			a.Answ_Question_Id = #{questionId}
-			<if test="userId != null">
-				and an.Agre_User_Id = #{userId}
-			</if>
 		</where>
 		order by a.Answ_Time desc
 		limit #{start},#{num};

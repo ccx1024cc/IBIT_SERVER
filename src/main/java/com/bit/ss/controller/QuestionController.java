@@ -104,15 +104,8 @@ public class QuestionController {
 	 */
 	@GET
 	@Path("front/answerListByQuestion/{id}")
-	public List<Answer> getAnswerListByQuestionId(@PathParam("id") int id, @QueryParam("page") int page,
-			@Context HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User userInfo = (User) session.getAttribute("userInfo");
-		Integer userId = null;
-		if (userInfo != null) {
-			userId = userInfo.getId();
-		}
-		return questionService.getAnswerListByQuestionId(id, page, userId);
+	public List<Answer> getAnswerListByQuestionId(@PathParam("id") int id, @QueryParam("page") int page) {
+		return questionService.getAnswerListByQuestionId(id, page);
 	}
 
 	/**
