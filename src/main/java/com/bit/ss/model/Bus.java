@@ -20,6 +20,7 @@ public class Bus {
 
 	private Integer id;
 	private Integer type;// 班车类型，0：临时班车，1：不变班车
+	private Integer dateType;// 日期类型，0：工作日；1：周五；2：周末；3：寒暑假以及法定假日
 	private String startPoint;
 	private String aimPoint;
 	private Integer seatMeasage; // 座位数
@@ -27,6 +28,14 @@ public class Bus {
 	private Date startTime;
 	private String midStation;
 	private String charger; // 存入信息人的姓名
+
+	public Integer getDateType() {
+		return dateType;
+	}
+
+	public void setDateType(Integer dateType) {
+		this.dateType = dateType;
+	}
 
 	public String getStartPoint() {
 		return startPoint;

@@ -193,6 +193,7 @@ public class BusController {
 		bus.setStartPoint(node.get("startPoint").asText());
 		bus.setStartTime(new DateUtil().parse(node.get("startTime").asText(), DateUtil.DATE_TIME_FORMAT));
 		bus.setType(node.get("type").asInt());
+		bus.setDateType(node.get("dateType").asInt());
 		busService.addBus(bus);
 		return Response.status(Status.CREATED).build();
 	}

@@ -309,6 +309,17 @@ function addBusEvent(element, e) {
 							+ "<label>StartTime</label>"
 							+ "<input type=\"text\" name=\"startTime_t\" class=\"form-control\" placeholder=\"hh:mm:ss\" data-mask>"
 							+ "</div></div>")
+			// 添加日期类型
+			.append(
+					"<div class=\"form-group\">"
+							+ "<div class=\"col-xs-12\">"
+							+ "<label>dateType</label>"
+							+ "<select class=\"form-control\" name=\"dateType\">"
+							+ "<option value=\"0\">工作日</option>"
+							+ "<option value=\"1\">周五</option>"
+							+ "<option value=\"2\">周末</option>"
+							+ "<option value=\"3\">节假日</option>"
+							+ "</div></div>")
 			// 添加负责人
 			.append(
 					"<div class=\"form-group\">"

@@ -162,7 +162,7 @@
 		from tbl_good_comment as c
 			left join tbl_user as u
 				on c.GoCo_User_Id = u.User_Id
-		where c.GoCo_Good_Id = 1
+		where c.GoCo_Good_Id = #{goodId}
 		order by c.GoCo_Time desc
 		limit 0,20;
 	</select>
